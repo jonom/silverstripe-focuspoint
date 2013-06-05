@@ -1,0 +1,34 @@
+/* Focus point - limited fallback functionality for IE7 (conditional include) */
+
+/* Respect right & bottom, center becomes left & top */
+.focus-center-center .featureslide-inner,
+.focus-center-top .featureslide-inner,
+.focus-center-bottom .featureslide-inner,
+.focus-left-center .featureslide-inner,
+.focus-right-center .featureslide-inner {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	top: 0;
+}
+.focus-center-center img,
+.focus-center-top img,
+.focus-center-bottom img,
+.focus-left-center img,
+.focus-right-center img { 
+	min-width: 100%;
+	min-height: 100%;
+	margin: 0;
+	left: 0;
+	right: auto;
+	top: 0;
+	bottom: auto;
+}
+.focus-right-center img { 
+	left: auto;
+	right: 0;
+}
+.focus-center-bottom img { 
+	top: auto;
+	bottom: 0;
+}

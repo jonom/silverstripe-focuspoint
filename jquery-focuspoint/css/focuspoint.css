@@ -1,0 +1,159 @@
+@media screen {
+
+/* !FULL SCREEN IMAGE */
+/*-----------------------------------------*/
+
+html,body,.focuspoint{
+	height: 100%;
+	width: 100%;
+	max-height: none;
+	max-width: none;
+	overflow: hidden;/*Prevent scrollbars in IE8*/
+	margin: 0;
+}
+.focuspoint {
+	margin: 0;
+	overflow: hidden;
+}
+
+img { 
+	/* fill screen and maintain aspect ratio */
+	width: auto; height: auto;
+	min-width: 100%; min-height: 100%;
+	max-height: none; max-width: none;
+}
+.focuspoint,
+.focuspoint-inner {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+}
+
+
+/* !FOCUSED IMAGES */
+/*-----------------------------------------*/
+
+.focuspoint-inner {
+	position: relative;
+	left: 0;
+	top: 0;
+}
+.focuspoint img {
+	position: absolute;
+	margin: 0;
+	display: block;
+}
+
+/* Default - Left top */
+.focus-left-top img {
+	left: 0;
+	top: 0;
+}
+
+/* Once JS kicks in the styles below this point aren't relevant */
+
+/* Left bottom */
+.focus-left-bottom img {
+	left: 0;
+	bottom: 0;
+}
+
+/* Right top */
+.focus-right-top img {
+	right: 0;
+	top: 0;
+}
+
+/* Right bottom */
+.focus-right-bottom img {
+	right: 0;
+	bottom: 0;
+}
+
+/* Horizontally-centered images */
+.focus-center-center .focuspoint-inner,
+.focus-center-top .focuspoint-inner,
+.focus-center-bottom .focuspoint-inner {
+	height: 100%;
+	width: 400%;
+	margin: 0 0 0 -150%;
+}
+.focus-center-center img,
+.focus-center-top img,
+.focus-center-bottom img { 
+	min-width: 25%;
+	min-height: 100%;
+	margin: auto;
+	left: 0;
+	right: 0;
+}
+.focus-center-bottom img { 
+	bottom: 0;
+	top: auto;
+}
+.focus-center-top img { 
+	bottom: auto;
+	top: 0;
+}
+
+/* Centered both axis */
+.focus-center-center .focuspoint-inner {
+	height: 400%;
+	top: -150%;
+	left: 0;
+}
+.focus-center-center img {
+	min-height: 25%;
+	bottom: 0;
+	top: 0;
+}
+
+/* Vertically-centered images */
+.focus-left-center .focuspoint-inner,
+.focus-right-center .focuspoint-inner {
+	height: 400%;
+	width: 100%;
+	top: -150%;
+	left: 0;
+}
+.focus-left-center img,
+.focus-right-center img {
+	min-height: 25%;
+	min-width: 100%;
+	bottom: 0;
+	top: 0;
+	margin: auto;
+}
+.focus-left-center img {
+	left: 0;
+}
+.focus-right-center img {
+	right: 0;
+}
+
+
+/* Debugging */
+/*
+{ 
+	height: 33%;
+	width: 33%;
+	left: 33%;
+	top: 33%;
+}
+#FeatureSlides,
+.focuspoint,
+.focuspoint-inner {
+	overflow: visible !important;
+}
+#FeatureSlides{
+	border: 1px solid red;
+}
+.focuspoint {
+	border: 1px solid blue;
+}
+.focuspoint-inner {
+	border: 1px solid lime;
+}
+*/
+
+/* End media */}

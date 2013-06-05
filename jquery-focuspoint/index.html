@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>FocusPoint Example</title>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+		
+		<link rel="stylesheet" type="text/css" href="css/focuspoint.css">
+		<!--[if lt IE 8]>
+			<link href="css/ltie8.css" rel="stylesheet" type="text/css" />
+		<![endif]-->
+		
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.focuspoint.js"></script>
+		
+		<script type="text/javascript">
+		//<![CDATA[	
+			
+			(function($) {
+				$(document).ready(function() {
+					
+					//Enhance focus points and full screen images
+					$('.focuspoint').focusPoint({
+						reCalcOnWindowResize : true
+					});
+					
+				});
+			}(jQuery));
+		
+		//]]>
+		</script>
+		
+	</head>
+	<body>
+	
+		<div class="focuspoint focus-center-center"
+		data-focus-x="0.33"
+		data-focus-y="0.249"
+		data-image-w="922"
+		data-image-h="666">
+			<div class="focuspoint-inner">
+				<img src="img/lizard.jpg" alt="" />
+			</div>
+		</div>
+	
+	</body>
+</html>
