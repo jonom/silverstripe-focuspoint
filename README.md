@@ -11,11 +11,13 @@ Notable features:
 
 ## Requirements
 
-Silverstripe 3.1 (possibly 3.0, I haven't tried)
+Silverstripe 3.0.x / 3.1.x
 
 ## Installation
 
-Download, drop the folder in your project root and run a dev/build?flush=1.
+Manually: Download, place the folder in your project root and run a dev/build?flush=1.
+
+Composer/Packagist: Add "jonom/focuspoint" to your requirements.
 
 ## Usage
 
@@ -29,6 +31,7 @@ Responsive images: see example of how to set up a full-screen responsive image i
 
  * Allow pixel level precision for choosing focus point in CMS instead of restricting to grid
  * Override CroppedImage() instead of adding new method
+ * ImageMagick support
  
 ## Maintainer contact
 
