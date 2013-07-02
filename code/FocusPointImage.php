@@ -75,9 +75,7 @@ class FocusPointImage extends DataExtension {
 	 * @return Image
 	 */
 	public function CroppedFocusedImage($width,$height) {
-		return (($this->owner->getWidth() == $width) &&  ($this->owner->getHeight() == $height))
-			? $this->owner
-			: $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height);
+		return $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height);
 	}
 
 	/**
