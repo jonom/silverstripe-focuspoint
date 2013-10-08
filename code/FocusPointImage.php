@@ -75,28 +75,24 @@ class FocusPointImage extends DataExtension {
 	 * @return Image
 	 */
 	public function CroppedFocusedImage($width,$height) {
-		return $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height);
+		return $this->owner->isSize($width, $height)
+			? $this->owner
+			: $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height);
 	}
 
 	/**
 	 * Generate a resized copy of this image with the given width & height, cropping to maintain aspect ratio and focus point.
 	 * Use in templates with $CroppedFocusedImage
 	 * 
-	 * @param GD $gd
+	 * @param Image_Backend $backend
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
-	 * @return GD
+	 * @return Image_Backend
 	 */
-	public function generateCroppedFocusedImage(GD $gd, $width, $height){
+	public function generateCroppedFocusedImage(Image_Backend $backend, $width, $height){
 		
 		$width = round($width);
 		$height = round($height);
-		
-		// Check that a resize is actually necessary.
-		if ($width == $this->owner->width && $height == $this->owner->height) {
-			return $this;
-		}
-		
 		$top = 0;
 		$left = 0;
 		$originalWidth = $this->owner->width;
@@ -135,7 +131,7 @@ class FocusPointImage extends DataExtension {
 				$left =  $focusOffsetX;
 				
 				//Generate image
-				return $gd->resizeByHeight($height)->crop($top, $left, $width, $height);
+				return $backend->resizeByHeight($height)->crop($top, $left, $width, $height);
 				
 			} else if ($widthRatio < $heightRatio) {
 			
@@ -162,12 +158,12 @@ class FocusPointImage extends DataExtension {
 				$top =  $focusOffsetY;
 				
 				//Generate image
-				return $gd->resizeByWidth($width)->crop($top, $left, $width, $height);
+				return $backend->resizeByWidth($width)->crop($top, $left, $width, $height);
 				
 			} else {
 			
 				//Generate image without cropping
-				return $gd->resize($width,$height);
+				return $backend->resize($width,$height);
 			}
 		
 		}
