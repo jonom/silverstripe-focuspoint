@@ -1,6 +1,6 @@
 {
 	"name": "jonom/focuspoint",
-	"description": "Image cropping enhancement module for SilverStripe",
+	"description": "Smarter automatic image cropping for SilverStripe",
 	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "crop", "cropping", "focus", "focuspoint", "image"],
 	"license": "BSD-3-Clause",
@@ -9,6 +9,6 @@
 		"homepage": "http://jonathonmenz.com"
 	}],
 	"require": {
-		"silverstripe/framework": "3.*"
+		"silverstripe/framework": "~3.1"
 	}
 }

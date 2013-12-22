@@ -18,10 +18,10 @@ class FocusPointImage extends DataExtension {
 		$f = new FocusPointField(
 			$name = "FocusXY",
 			$title = "Focus point",
+			$value = $this->owner->FocusX.','.$this->owner->FocusY,
 			$imageID = $this->owner->ID
-			//$value = FocusPointField::sourceCoordsToFieldValue($this->owner->FocusX,$this->owner->FocusY) //@todo $value argument isn't getting passed through for some reason
 		);
-		$f->setValue(FocusPointField::sourceCoordsToFieldValue($this->owner->FocusX,$this->owner->FocusY));
+		//$f->setValue(FocusPointField::sourceCoordsToFieldValue($this->owner->FocusX,$this->owner->FocusY));
 		$fields->addFieldToTab("Root.Main", $f);
 	}
 	
