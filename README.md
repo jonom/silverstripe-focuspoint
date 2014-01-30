@@ -14,17 +14,17 @@ SilverStripe 3.1
 
 ## Installation
 
-Manually: Download, place the folder in your project root and run a dev/build?flush=1.
+**Manually:** Download, place the folder in your project root and run a dev/build?flush=1.
 
-Composer/Packagist: Add "jonom/focuspoint" to your requirements.
+**Composer/Packagist:** Add "jonom/focuspoint" to your requirements.
 
 ## Usage
 
-In templates: Use just like CroppedImage, but use CroppedFocusedImage instead.
+**In templates:** Use just like CroppedImage, but use CroppedFocusedImage instead.
 
-In the CMS: When you edit an image in the CMS there should be an extra 'Focus Point' field. Click on the subject of the image to set the focus area and save the image.
+**In the CMS:** When you edit an image in the CMS there should be an extra 'Focus Point' field. Click on the subject of the image to set the focus area and save the image.
 
-Responsive images: see example of how to set up a full-screen responsive image in the jquery-focuspoint folder. Note: this is an early proof of concept, I may move this to a separate project in the future.
+**Responsive cropping:** see example of how to set up a full-screen responsively-cropped image in the jquery-focuspoint folder. Note: this is an early proof of concept, I may move this to a separate project in the future.
 
 ## To Do
 
@@ -33,6 +33,4 @@ Responsive images: see example of how to set up a full-screen responsive image i
  
 ## Maintainer contact
 
-[jonathonmenz.com]
-
-[jonathonmenz.com]:http://jonathonmenz.com
+[jonathonmenz.com](http://jonathonmenz.com)
