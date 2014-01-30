@@ -24,7 +24,7 @@ SilverStripe 3.1
 
 **In the CMS:** When you edit an image in the CMS there should be an extra 'Focus Point' field. Click on the subject of the image to set the focus area and save the image.
 
-**Responsive cropping:** see example of how to set up a full-screen responsively-cropped image in the jquery-focuspoint folder. Note: this is an early proof of concept, I may move this to a separate project in the future.
+**Responsive cropping:** see an example of how to set up a full-screen [responsively-cropped image here](http://jonom.github.io/silverstripe-focuspoint/jquery-demo/index.html). Demo files are included in the jquery-focuspoint folder. Note: this is an early proof of concept, I may move this to a separate project in the future.
 
 ## To Do
 
