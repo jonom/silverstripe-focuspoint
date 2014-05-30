@@ -8,6 +8,8 @@ The goal of this module is to provide some control over automatic image cropping
 
 **Solution:** FocusPoint allows you to tag the subject in an image and ensures it is not lost during cropping.
 
+![Comparison of cropping with and without FocusPoint](/screenshots/comparison.jpg?raw=true)
+
 ## Requirements
 
 SilverStripe 3.1
