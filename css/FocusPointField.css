@@ -7,6 +7,7 @@
 	position: relative;
 	left: 0;
 	top: 0;
+	max-width: 300px;
 }
 
 .focus-point-field img {
