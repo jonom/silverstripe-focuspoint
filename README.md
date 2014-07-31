@@ -30,7 +30,7 @@ SilverStripe 3.1
 
 ## To Do
 
- * Override CroppedImage() instead of adding new method
+ * Override CroppedImage() instead of adding new method (Note: I've tried everything I could think of to do this. It may be impossible)
  * ImageMagick support (maybe already works - need to test)
  
 ## Maintainer contact
