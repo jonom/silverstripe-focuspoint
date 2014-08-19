@@ -1,4 +1,4 @@
-<%-- Example of how to set up SS template to produce output as seen in index.html --%>
+<%-- Example of how to set up SS template to produce output to work with jQuery FocusPoint --%>
 
 <% with Image %>
 	<div class="focuspoint $BasicFocusArea"
@@ -6,8 +6,6 @@
 	data-focus-y="$FocusY"
 	data-image-w="$Width"
 	data-image-h="$Height">
-		<div class="focuspoint-inner">
-			<img src="img/lizard.jpg" alt="" />
-		</div>
+		<img src="img/lizard.jpg" alt="" />
 	</div>
 <% end_with %>
