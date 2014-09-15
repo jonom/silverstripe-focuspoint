@@ -67,6 +67,28 @@ class FocusPointImage extends DataExtension {
 	}
 	
 	/**
+	 * Generate a percentage based description of x focus point for use in CSS.
+	 * Range is 0% - 100%. Example x=.5 translates to 75%
+	 * Use in templates with {$PercentageX}%
+	 * 
+	 * @return int
+	 */
+	public function PercentageX() {
+		return round(($this->owner->FocusX + 1)*50);
+	}
+	
+	/**
+	 * Generate a percentage based description of y focus point for use in CSS.
+	 * Range is 0% - 100%. Example y=-.5 translates to 75%
+	 * Use in templates with {$PercentageY}%
+	 * 
+	 * @return int
+	 */
+	public function PercentageY() {
+		return round(($this->owner->FocusY - 1)*-50);
+	}
+	
+	/**
 	 * Generate a resized copy of this image with the given width & height, cropping to maintain aspect ratio and focus point.
 	 * Use in templates with $CroppedFocusedImage
 	 * 
