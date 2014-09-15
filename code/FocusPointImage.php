@@ -97,11 +97,14 @@ class FocusPointImage extends DataExtension {
 	 * @return Image
 	 */
 	public function CroppedFocusedImage($width,$height) {
+		//Cache buster - add coords to filename as percentage (2 decimal points accuracy)
+		$focusHash = $this->PercentageX() . '-' . $this->PercentageY();
+		//Only resize if necessary
 		return $this->owner->isSize($width, $height)
 			? $this->owner
-			: $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height);
+			: $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height, $focusHash);
 	}
-
+	
 	/**
 	 * Generate a resized copy of this image with the given width & height, cropping to maintain aspect ratio and focus point.
 	 * Use in templates with $CroppedFocusedImage
