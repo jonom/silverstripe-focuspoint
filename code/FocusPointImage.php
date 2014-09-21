@@ -156,7 +156,9 @@ class FocusPointImage extends DataExtension {
 				$left =  $focusOffsetX;
 				
 				//Generate image
-				return $backend->resizeByHeight($height)->crop($top, $left, $width, $height);
+				$result = $backend->resizeByHeight($height)->crop($top, $left, $width, $height);
+				$this->owner->extend('onAfterCroppedFocusedImageGeneration', $this->owner);
+				return $result;
 				
 			} else if ($widthRatio < $heightRatio) {
 			
@@ -183,12 +185,16 @@ class FocusPointImage extends DataExtension {
 				$top =  $focusOffsetY;
 				
 				//Generate image
-				return $backend->resizeByWidth($width)->crop($top, $left, $width, $height);
+				$result = $backend->resizeByWidth($width)->crop($top, $left, $width, $height);
+				$this->owner->extend('onAfterCroppedFocusedImageGeneration', $this->owner);
+				return $result;
 				
 			} else {
 			
 				//Generate image without cropping
-				return $backend->resize($width,$height);
+				$result = $backend->resize($width,$height);
+				$this->owner->extend('onAfterCroppedFocusedImageGeneration', $this->owner);
+				return $result;
 			}
 		
 		}
