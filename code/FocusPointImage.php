@@ -32,7 +32,11 @@ class FocusPointImage extends DataExtension {
 			$this->owner->FocusX = $coords[0];
 			$this->owner->FocusY = $coords[1];
 			//Flush images if focus point has changed
-			if ($this->owner->isChanged('FocusX') || $this->owner->isChanged('FocusY')) $this->owner->deleteFormattedImages();
+			if ($this->owner->isChanged('FocusX') || $this->owner->isChanged('FocusY')) {
+				$this->owner->deleteFormattedImages();
+				// add an extension point primiarly to allow updates to LastEdited fields of DataObjects related to this image
+				$this->owner->extend('onBeforeRefocusedImageWrite');
+			}
 		}
 		parent::onBeforeWrite();
 	}
