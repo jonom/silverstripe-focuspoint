@@ -94,9 +94,23 @@ class FocusPointImage extends DataExtension {
 	 * 
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
+	 * @param boolean $upscale Will prevent upscaling if set to false
 	 * @return Image
 	 */
-	public function CroppedFocusedImage($width,$height) {
+	public function CroppedFocusedImage($width,$height,$upscale=true) {
+		//Don't enlarge
+		if (!$upscale) {
+			$widthRatio = $this->owner->width / $width;
+			$heightRatio = $this->owner->height / $height;
+			if ($widthRatio < 1 && $widthRatio <= $heightRatio) {
+				$width = $this->owner->width;
+				$height = $height*$widthRatio;
+			}
+			else if ($heightRatio < 1) {
+				$width = $this->owner->width;
+				$height = $height*$widthRatio;
+			}
+		}
 		//Cache buster - add coords to filename as percentage (2 decimal points accuracy)
 		$focusHash = $this->PercentageX() . '-' . $this->PercentageY();
 		//Only resize if necessary
