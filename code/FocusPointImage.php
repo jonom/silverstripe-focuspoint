@@ -31,8 +31,6 @@ class FocusPointImage extends DataExtension {
 			$coords = FocusPointField::fieldValueToSourceCoords($this->owner->FocusXY);
 			$this->owner->FocusX = $coords[0];
 			$this->owner->FocusY = $coords[1];
-			//Flush images if focus point has changed
-			if ($this->owner->isChanged('FocusX') || $this->owner->isChanged('FocusY')) $this->owner->deleteFormattedImages();
 		}
 		parent::onBeforeWrite();
 	}
