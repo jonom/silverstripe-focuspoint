@@ -42,11 +42,23 @@ You can specify that images should not be upscaled by passing a third argument: 
 
 ###Responsive cropping###
 
-You can use this module in combination with [jQuery FocusPoint ](https://github.com/jonom/jquery-focuspoint)to accomplish 'responsive cropping' on your website. Check out a [demo here](http://jonom.github.io/jquery-focuspoint/demos/grid/lizard.html). There is an example .ss template included in the jquery-focuspoint folder to help you set this up.
+You can use this module in combination with [jQuery FocusPoint ](https://github.com/jonom/jquery-focuspoint)to accomplish 'responsive cropping' on your website. Check out a [demo here](http://jonom.github.io/jquery-focuspoint/demos/grid/lizard.html). To set this up do something like this in your templates:
 
-###Focused background image###
+```
+<% with $SomeImage %>
+	<div class="focuspoint"
+		data-focus-x="$FocusX"
+		data-focus-y="$FocusY"
+		data-image-w="$Width"
+		data-image-h="$Height">
+		<img src="$Link" alt="" />
+	</div>
+<% end_with %>
+```
 
-Try something like this...
+####CSS-only version####
+
+Try something like this to get a full-screen background image that preserves your focus point.
 
 ```
 <body
