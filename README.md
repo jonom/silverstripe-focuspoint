@@ -64,7 +64,7 @@ Try something like this to get a full-screen background image that preserves you
 <body
 	<% with $BGImage %>
 		style="background-image: url($Link);
-			background-position: $PercentageX $PercentageY; 
+			background-position: $PercentageX% $PercentageY%; 
 			background-size: cover;"
 	<% end_with %>
 >
