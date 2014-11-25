@@ -105,8 +105,8 @@ class FocusPointImage extends DataExtension {
 				$height = $height*$widthRatio;
 			}
 			else if ($heightRatio < 1) {
-				$width = $this->owner->width;
-				$height = $height*$widthRatio;
+				$height = $this->owner->height;
+				$width = $width*$heightRatio;
 			}
 		}
 		//Cache buster - add coords to filename as percentage (2 decimal points accuracy)
