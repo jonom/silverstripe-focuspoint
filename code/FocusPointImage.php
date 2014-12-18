@@ -112,7 +112,7 @@ class FocusPointImage extends DataExtension {
 		//Cache buster - add coords to filename as percentage (2 decimal points accuracy)
 		$focusHash = $this->PercentageX() . '-' . $this->PercentageY();
 		//Only resize if necessary
-		return $this->owner->isSize($width, $height)
+		return $this->owner->isSize($width, $height)&& !Config::inst()->get('Image', 'force_resample')
 			? $this->owner
 			: $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height, $focusHash);
 	}
