@@ -22,7 +22,7 @@ SilverStripe 3.1
 
 Download and extract, rename the module folder 'focuspoint', place it in your project root and run a dev/build?flush=1.
 
-**Note:** Prior to SilverStripe v3.1.9 *dev/build?flush=1* did not flush .ss template files. If using SilverStripe 3.1.8 or earlier you'll need to flush the templates on a page URL e.g. *yoursite.com/?flush=1*.
+**Note:** Prior to SilverStripe v3.1.9 *dev/build?flush=1* did not flush .ss template files. If using SilverStripe 3.1.8 or earlier you'll need to flush the templates on a page URL e.g. *yoursite.dev/?flush=1*.
 
 Fun fact: you don't generally need to manually flush template files in SilverStripe after changing them - except when they are new or are rendered via `<% include %>`.
 
@@ -80,11 +80,11 @@ If you are caching page content that includes a CroppedFocusedImage and you edit
 
 SilverStripe FocusPoint provides an easy and automated way to get better results when forcing an image to be a different aspect ratio. I have some vague plans to offer more fine-grained control over individual crops in the future, but until then I recommend checking out Will Morgan's [SilverStripe CropperField](https://github.com/willmorgan/silverstripe-cropperfield) as an alternative.
 
-## Troublshooting
+## Troubleshooting
 
 ### The FocusPoint field in the CMS appears broken
 
-If the Focus point field shows a non-interactive image and a text field with a comma in it, make sure the module folder is names 'focuspoint' and try visiting *yoursite.com/?flush=1* again.
+If the Focus point field shows a non-interactive image and a text field with a comma in it, make sure the module folder is names 'focuspoint' and try visiting *yoursite.dev/?flush=1* again.
 
 ### Focus point has been changed but image has not updated
 
