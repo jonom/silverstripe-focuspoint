@@ -34,7 +34,7 @@ When you edit an image in the CMS there should be an extra 'Focus Point' field. 
 
 ### In templates and PHP
 
-Use just like CroppedImage, but use CroppedFocusedImage instead.
+Use just like $CroppedImage, but use $CroppedFocusedImage instead.
 
 ## Advanced usage
 
@@ -76,7 +76,7 @@ Try something like this to get a full-screen background image that preserves you
 
 If you are caching page content that includes a CroppedFocusedImage and you edit the image (i.e. by changing the focus point) but not the page, you may want to invalidate the page's cache as the updated CroppedFocusedImage will have a different filename. Gordon Banderson has written a [robust extension](https://github.com/gordonbanderson/weboftalent-imageeditpartialcachebust) to help you achieve this.
 
-### Contextual cropping
+### Fine-tuned cropping in individual contexts
 
 SilverStripe FocusPoint provides an easy and automated way to get better results when forcing an image to be a different aspect ratio. I have some vague plans to offer more fine-grained control over individual crops in the future, but until then I recommend checking out Will Morgan's [SilverStripe CropperField](https://github.com/willmorgan/silverstripe-cropperfield) as an alternative.
 
@@ -84,11 +84,11 @@ SilverStripe FocusPoint provides an easy and automated way to get better results
 
 ### The FocusPoint field in the CMS appears broken
 
-If the Focus point field shows a non-interactive image and a text field with a comma in it, make sure the module folder is names 'focuspoint' and try visiting *yoursite.dev/?flush=1* again.
+If the focus point field shows a non-interactive image and a text field with a comma in it, make sure the module folder is named 'focuspoint' and try visiting *yoursite.dev/?flush=1* again.
 
 ### Focus point has been changed but image has not updated
 
-As a cache-busting mechanism FocusPoint includes approximate focus point coordinates in generated filenames. This means that if the focus point is updating correctly in the CMS but you're not seeing images change on your website, it's likely that you're viewing cached HTML output and need to invalidate that to see the updated image.
+As a cache-busting mechanism this module includes approximate focus point coordinates in generated filenames. This means that if the focus point is updating correctly in the CMS but you're not seeing images change on your website, it's likely that you're viewing cached HTML output and need to invalidate that to see the updated image.
 
 ## To Do
 
