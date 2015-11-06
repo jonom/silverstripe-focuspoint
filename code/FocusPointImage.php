@@ -22,7 +22,11 @@ class FocusPointImage extends DataExtension {
 			$imageID = $this->owner->ID
 		);
 		//$f->setValue(FocusPointField::sourceCoordsToFieldValue($this->owner->FocusX,$this->owner->FocusY));
-		$fields->addFieldToTab("Root.Main", $f);
+		if($fields->hasTabSet()) {
+			$fields->addFieldToTab('Root.Main', $f);
+		} else {
+			$fields->add($f);
+		}
 	}
 	
 	public function onBeforeWrite() {
