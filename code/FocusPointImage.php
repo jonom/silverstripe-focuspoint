@@ -1,14 +1,27 @@
 <?php
 
+/**
+ * FocusPoint Image extension.
+ * Extends Image to allow automatic cropping from a selected focus point.
+ * 
+ * @extends DataExtension
+ */
 class FocusPointImage extends DataExtension {
 
+	/**
+	 * Describes the focus point coordinates on the image.
+	 * FocusX: Decimal number between -1 & 1, where -1 is far left, 0 is center, 1 is far right.
+	 * FocusY: Decimal number between -1 & 1, where -1 is bottom, 0 is center, 1 is top.
+	 */
 	private static $db = array(
-		'FocusX' => 'Double', // Decimal number between -1 & 1, where -1 is far left, 0 is center, 1 is far right.
-		'FocusY' => 'Double' // Decimal number between -1 & 1, where -1 is bottom, 0 is center, 1 is top.
+		'FocusX' => 'Double',
+		'FocusY' => 'Double'
 	);
-
+	
+	/**
+	 * Preserve default behaviour of cropping from center
+	 */
 	private static $defaults = array(
-		//Preserve default behaviour of cropping from center
 		'FocusX' => '0',
 		'FocusY' => '0'
 	);
@@ -19,15 +32,11 @@ class FocusPointImage extends DataExtension {
 	 */
 	private static $flush_on_change = false;
 	
+	/**
+	 * Add FocusPoint field for selecting focus
+	 */
 	public function updateCMSFields(FieldList $fields) {
-		//Add FocusPoint field for selecting focus
-		$f = new FocusPointField(
-			$name = "FocusXY",
-			$title = "Focus point",
-			$value = $this->owner->FocusX.','.$this->owner->FocusY,
-			$imageID = $this->owner->ID
-		);
-		//$f->setValue(FocusPointField::sourceCoordsToFieldValue($this->owner->FocusX,$this->owner->FocusY));
+		$f = new FocusPointField($this->owner);
 		if($fields->hasTabSet()) {
 			$fields->addFieldToTab('Root.Main', $f);
 		} else {
@@ -36,34 +45,28 @@ class FocusPointImage extends DataExtension {
 	}
 	
 	public function onBeforeWrite() {
-		//Update individual focus points
-		if ($this->owner->FocusXY){
-			$coords = FocusPointField::fieldValueToSourceCoords($this->owner->FocusXY);
-			$this->owner->FocusX = $coords[0];
-			$this->owner->FocusY = $coords[1];
-
-			if (
-				Config::inst()->get(__CLASS__, 'flush_on_change')
-				&& ($this->owner->isChanged('FocusX') || $this->owner->isChanged('FocusY'))
-			) {
-				$this->owner->deleteFormattedImages();
-			}
+		if (
+			Config::inst()->get(__CLASS__, 'flush_on_change')
+			&& ($this->owner->isChanged('FocusX') || $this->owner->isChanged('FocusY'))
+		) {
+			$this->owner->deleteFormattedImages();
 		}
 		parent::onBeforeWrite();
 	}
 	
 	/**
-	 * Generate a broad description of focus point i.e. 'focus-bottom-left' for use in CSS.
+	 * Generate a label describing the focus point on a 3x3 grid e.g. 'focus-bottom-left'
+	 * This could be used for a CSS class. It's probably not very useful.
 	 * Use in templates with $BasicFocusArea
 	 * 
 	 * @return string
 	 */
 	public function BasicFocusArea() {
-		//Defaults
+		// Defaults
 		$horzFocus = "center";
 		$vertFocus = "center";
 		
-		//Calculate based on XY coords
+		// Calculate based on XY coords
 		if ($this->owner->FocusX > .333) {
 			$horzFocus = "right";
 		}
@@ -77,7 +80,7 @@ class FocusPointImage extends DataExtension {
 			$vertFocus = "bottom";
 		}
 		
-		//Combine in to CSS class
+		// Combine in to CSS class
 		return 'focus-'.$horzFocus.'-'.$vertFocus;
 	}
 	
@@ -89,7 +92,7 @@ class FocusPointImage extends DataExtension {
 	 * @return int
 	 */
 	public function PercentageX() {
-		return round(($this->owner->FocusX + 1)*50);
+		return round($this->focusCoordToOffset('x', $this->owner->FocusX)*100);
 	}
 	
 	/**
@@ -100,20 +103,149 @@ class FocusPointImage extends DataExtension {
 	 * @return int
 	 */
 	public function PercentageY() {
-		return round(($this->owner->FocusY - 1)*-50);
+		return round($this->focusCoordToOffset('y', $this->owner->FocusY)*100);
+	}
+	
+	public function DebugFocusPoint() {
+		Requirements::css('focuspoint/css/focuspoint-debug.css');
+		return $this->owner->renderWith('FocusPointDebug');
+	}
+	
+	public function focusCoordToOffset($axis, $coord) {
+		// Turn a focus x/y coordinate in to an offset from left or top
+		if ($axis == 'x') return ($coord + 1)*0.5;
+		if ($axis == 'y') return ($coord - 1)*-0.5;
+	}
+	
+	public function focusOffsetToCoord($axis, $offset) {
+		// Turn a left/top offset in to a focus x/y coordinate
+		if ($axis == 'x') return $offset*2 - 1;
+		if ($axis == 'y') return $offset*-2 + 1;
+	}
+	
+	public function calculateCrop($width, $height) {
+		// Work out how to crop the image and provide new focus coordinates
+		$cropData = array(
+			'CropAxis' => 0,
+			'CropOffset' => 0
+		);
+		$cropData['x'] = array(
+			'FocusPoint'     => $this->owner->FocusX,
+			'OriginalLength' => $this->owner->getWidth(),
+			'TargetLength'   => round($width)
+		);
+		$cropData['y'] = array(
+			'FocusPoint'     => $this->owner->FocusY,
+			'OriginalLength' => $this->owner->getHeight(),
+			'TargetLength'   => round($height)
+		);
+		
+		// Avoid divide by zero error
+		if (!($cropData['x']['OriginalLength'] > 0 && $cropData['y']['OriginalLength'] > 0)) return false;
+		
+		// Work out which axis to crop on
+		$cropAxis = false;
+		$cropData['x']['ScaleRatio'] = $cropData['x']['OriginalLength']/$cropData['x']['TargetLength'];
+		$cropData['y']['ScaleRatio'] = $cropData['y']['OriginalLength']/$cropData['y']['TargetLength'];
+		if ($cropData['x']['ScaleRatio'] < $cropData['y']['ScaleRatio']) {
+			// Top and/or bottom of image will be lost
+			$cropAxis = 'y';
+			$scaleRatio = $cropData['x']['ScaleRatio'];
+		}
+		else if ($cropData['x']['ScaleRatio'] > $cropData['y']['ScaleRatio']) {
+			// Left and/or right of image will be lost
+			$cropAxis = 'x';
+			$scaleRatio = $cropData['y']['ScaleRatio'];
+		}
+		$cropData['CropAxis'] = $cropAxis;
+		
+		// Adjust dimensions for cropping
+		if ($cropAxis) {
+			// Focus point offset
+			$focusOffset = $this->focusCoordToOffset($cropAxis, $cropData[$cropAxis]['FocusPoint']);
+			// Length after scaling but before cropping
+			$scaledImageLength = floor($cropData[$cropAxis]['OriginalLength']/$scaleRatio);
+			// Focus point position in pixels
+			$focusPos = floor($focusOffset*$scaledImageLength);
+			// Container center in pixels
+			$frameCenter = floor($cropData[$cropAxis]['TargetLength']/2);
+			// Difference beetween focus point and center
+			$focusShift = $focusPos - $frameCenter;
+			// Limit offset so image remains filled
+			$remainder = $scaledImageLength - $focusPos;
+			$croppedRemainder = $cropData[$cropAxis]['TargetLength'] - $frameCenter;
+			if ($remainder < $croppedRemainder) $focusShift-= $croppedRemainder - $remainder;
+			if ($focusShift < 0) $focusShift =0;
+			// Set cropping start point
+			$cropData['CropOffset'] = $focusShift;
+			// Update Focus point location for cropped image
+			$newFocusOffset = ($focusPos - $focusShift)/$cropData[$cropAxis]['TargetLength'];
+			$cropData[$cropAxis]['FocusPoint'] = $this->focusOffsetToCoord($cropAxis, $newFocusOffset);
+		}
+		
+		return $cropData;
 	}
 	
 	/**
-	 * Generate a resized copy of this image with the given width & height, cropping to maintain aspect ratio and focus point.
-	 * Use in templates with $CroppedFocusedImage
+	 * Get an image for the focus point CMS field.
+	 * 
+	 * @return Image|null
+	 */
+	public function FocusPointFieldImage() {
+		// Use same image as CMS preview to save generating a new image - copied from File::getCMSFields()
+		return $this->owner->ScaleWidth(Config::inst()->get('Image', 'asset_preview_width'));
+	}
+	
+	/**
+	 * Resize and crop image to fill specified dimensions, centred on focal point
+	 * of image. Use in templates with $FocusFill.
+	 * 
+	 * @param integer $width Width to crop to
+	 * @param integer $height Height to crop to
+	 * @return Image|null
+	 */
+	public function FocusFill($width,$height) {
+		return $this->owner->CroppedFocusedImage($width,$height,$upscale=true);
+	}
+	
+	/**
+	 * Crop this image to the aspect ratio defined by the specified width and
+	 * height, centred on focal point of image, then scale down the image to those
+	 * dimensions if it exceeds them. Similar to FocusFill but without 
+	 * up-sampling. Use in templates with $FocusFillMax.
+	 * 
+	 * @param integer $width Width to crop to
+	 * @param integer $height Height to crop to
+	 * @return Image|null
+	 */
+	public function FocusFillMax($width,$height) {
+		return $this->owner->CroppedFocusedImage($width,$height,$upscale=false);
+	}
+	
+	public function FocusCropWidth($width) {
+		return ($this->owner->getWidth() > $width)
+			? $this->owner->CroppedFocusedImage($width, $this->owner->getHeight())
+			: $this->owner;
+	}
+	
+	public function FocusCropHeight($height) {
+		return ($this->owner->getHeight() > $height)
+			? $this->owner->CroppedFocusedImage($this->owner->getWidth(), $height)
+			: $this->owner;
+	}
+	
+	/**
+	 * Generate a resized copy of this image with the given width & height,
+	 * cropping to maintain aspect ratio and focus point. Use in templates with
+	 * $CroppedFocusedImage
 	 * 
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
 	 * @param boolean $upscale Will prevent upscaling if set to false
-	 * @return Image
+	 * @return Image|null
 	 */
 	public function CroppedFocusedImage($width,$height,$upscale=true) {
-		//Don't enlarge
+		// Don't enlarge
 		if (!$upscale) {
 			$widthRatio = $this->owner->width / $width;
 			$heightRatio = $this->owner->height / $height;
@@ -126,100 +258,43 @@ class FocusPointImage extends DataExtension {
 				$width = $width*$heightRatio;
 			}
 		}
-		//Cache buster - add coords to filename as percentage (2 decimal points accuracy)
-		$focusHash = $this->PercentageX() . '-' . $this->PercentageY();
 		//Only resize if necessary
-		return $this->owner->isSize($width, $height)&& !Config::inst()->get('Image', 'force_resample')
-			? $this->owner
-			: $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height, $focusHash);
+		if ($this->owner->isSize($width, $height) && !Config::inst()->get('Image', 'force_resample')) {
+			return $this->owner;
+		}
+		else if ($cropData = $this->calculateCrop($width, $height)) {
+			$img = $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height, $cropData['CropAxis'], $cropData['CropOffset']);
+			// Update FocusPoint
+			$img->FocusX = $cropData['x']['FocusPoint'];
+			$img->FocusY = $cropData['y']['FocusPoint'];
+			return $img;
+		}
 	}
 	
 	/**
-	 * Generate a resized copy of this image with the given width & height, cropping to maintain aspect ratio and focus point.
-	 * Use in templates with $CroppedFocusedImage
+	 * 
 	 * 
 	 * @param Image_Backend $backend
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
 	 * @return Image_Backend
 	 */
-	public function generateCroppedFocusedImage(Image_Backend $backend, $width, $height){
-		
-		$width = round($width);
-		$height = round($height);
-		$top = 0;
-		$left = 0;
-		$originalWidth = $this->owner->width;
-		$originalHeight = $this->owner->height;
-		
-		if ($this->owner->width > 0 && $this->owner->height > 0 ){//Can't divide by zero
-		
-			//Which is over by more?
-			$widthRatio = $originalWidth/$width;
-			$heightRatio = $originalHeight/$height;
-			
-			//Calculate offset required
-			
-			if ($widthRatio > $heightRatio) {
-			
-				//Left and/or right of image will be lost
-				
-				//target center in px
-				$croppedCenterX = floor($width/2);
-				
-				//X axis focus point of scaled image in px
-				$focusFactorX = ($this->owner->FocusX + 1)/2; //i.e .333 = one third along
-				$scaledImageWidth = floor($originalWidth/$heightRatio);
-				$focusX = floor($focusFactorX*$scaledImageWidth);
-				
-				//Calculate difference beetween focus point and center
-				$focusOffsetX = $focusX - $croppedCenterX;
-				
-				//Reduce offset if necessary so image remains filled
-				$xRemainder = $scaledImageWidth - $focusX;
-				$croppedXRemainder = $width - $croppedCenterX;
-				if ($xRemainder < $croppedXRemainder) $focusOffsetX-= $croppedXRemainder - $xRemainder;
-				if ($focusOffsetX < 0) $focusOffsetX =0;
-				
-				//Set horizontal crop start point
-				$left =  $focusOffsetX;
-				
-				//Generate image
-				return $backend->resizeByHeight($height)->crop($top, $left, $width, $height);
-				
-			} else if ($widthRatio < $heightRatio) {
-			
-				//Top and/or bottom of image will be lost
-			
-				//Container center in px
-				$croppedCenterY = floor($height/2);
-				
-				//Focus point of resize image in px
-				$focusFactorY = ($this->owner->FocusY + 1)/2; // zero is bottom of image, 1 is top
-				$scaledImageHeight = floor($originalHeight/$widthRatio);
-				$focusY = $scaledImageHeight - floor($focusFactorY*$scaledImageHeight);
-				
-				//Calculate difference beetween focus point and center
-				$focusOffsetY = $focusY - $croppedCenterY;
-				
-				//Reduce offset if necessary so image remains filled
-				$yRemainder = $scaledImageHeight - $focusY;
-				$croppedYRemainder = $height - $croppedCenterY;
-				if ($yRemainder < $croppedYRemainder) $focusOffsetY-= $croppedYRemainder - $yRemainder;
-				if ($focusOffsetY < 0) $focusOffsetY =0;
-				
-				//Set vertical crop start point
-				$top =  $focusOffsetY;
-				
-				//Generate image
-				return $backend->resizeByWidth($width)->crop($top, $left, $width, $height);
-				
-			} else {
-			
-				//Generate image without cropping
-				return $backend->resize($width,$height);
-			}
-		
+	public function generateCroppedFocusedImage(Image_Backend $backend, $width, $height, $cropAxis, $cropOffset){
+		if ($cropAxis == 'x'){
+			//Generate image
+			return $backend
+				->resizeByHeight($height)
+				->crop(0, $cropOffset, $width, $height);
+		}
+		else if ($cropAxis == 'y') {
+			//Generate image
+			return $backend
+				->resizeByWidth($width)
+				->crop($cropOffset, 0, $width, $height);
+		}
+		else {
+			//Generate image without cropping
+			return $backend->resize($width, $height);
 		}
 	}
 }

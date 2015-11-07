@@ -1,62 +1,39 @@
 <?php
 
-class FocusPointField extends FormField {
+/**
+ * FocusPointField class.
+ * Facilitates the selection of a focus point on an image.
+ * 
+ * @extends FieldGroup
+ */
+class FocusPointField extends FieldGroup {
+	
+	/**
+	 * Enable to view Focus X and Focus Y fields while in Dev mode
+	 * 
+	 * @var boolean
+	 * @config
+	 */
+	private static $debug = false;
 
-	public function __construct($name, $title=null, $value='', $imageID=null, $form=null) {
-	
-		$this->setImage($imageID);
-
-		parent::__construct($name, ($title===null) ? $name : $title, $value, $form);
-	}
-	
-	public function Field($properties = array()) {
-	
+	public function __construct(Image $image) {
+		// Load necessary scripts and styles
 		Requirements::javascript(FRAMEWORK_DIR . '/thirdparty/jquery/jquery.js');
 		Requirements::javascript(FRAMEWORK_DIR . '/thirdparty/jquery-entwine/dist/jquery.entwine-dist.js');
-		Requirements::javascript('focuspoint/javascript/FocusPointField.js');
-		Requirements::css('focuspoint/css/FocusPointField.css');
+		Requirements::javascript(FOCUSPOINT_DIR . '/javascript/FocusPointField.js');
+		Requirements::css(FOCUSPOINT_DIR . '/css/FocusPointField.css');
 		
-		$obj = ($properties) ? $this->customise($properties) : $this;
+		// Create the fields
+    $fields = array(
+			LiteralField::create('FocusPointGrid', $image->renderWith('FocusPointField')),
+			TextField::create('FocusX'),
+			TextField::create('FocusY')
+    );
+		$this->setName('FocusPoint');
+		$this->setTitle('Focus Point');
+		$this->addExtraClass('focuspoint-fieldgroup');
+		if (Director::isDev() && $this->config()->get('debug')) $this->addExtraClass('debug');
 
-		return $obj->renderWith($this->getTemplates());
+		parent::__construct($fields);
 	}
-
-	public function setImage($imageID) {
-		if ($imageID) {
-			$this->ImageID = $imageID;
-		}
-	}
-
-	public function getImage() {
-		if ($this->ImageID) {
-			return Image::get()->byID($this->ImageID);
-		}
-	}
-
-	public static function sourceCoordsToFieldValue($x,$y) {
-		
-		//Get rid of trailing zeroes
-		$x = (float)$x;
-		$y = (float)$y;
-		
-		return $x.','.$y;
-		
-	}
-
-	public static function fieldValueToSourceCoords($fieldVal) {
-		return explode(',',$fieldVal);
-		
-	}
-	
-	public function PreviewImage() {
-		//Use same image as CMS preview to save generating a new image - copied from File::getCMSFields()
-		$image = $this->getImage();
-		if ($image) {
-			return $this->getImage()->getFormattedImage(
-				'SetWidth', 
-				Config::inst()->get('Image', 'asset_preview_width')
-			);
-		}
-	}
-
 }

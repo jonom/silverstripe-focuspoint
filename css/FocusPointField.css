@@ -1,4 +1,4 @@
-.focus-point-field {
+.focuspoint-field {
 	display: block;
 	margin: 0;
 	overflow: hidden;
@@ -10,7 +10,7 @@
 	max-width: 300px;
 }
 
-.focus-point-field img {
+.focuspoint-field img {
 	display: block;
 	margin: 0;
 	width: auto;
@@ -19,7 +19,7 @@
 	max-height: 150px;
 }
 
-.focus-point-field .grid {
+.focuspoint-field .grid {
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -33,9 +33,11 @@
   transition: background 0.1s ease;
 }
 
-.focus-point-field input {
-	display: none;/* Remove for debugging */
-	position: absolute;
-	left: 0;
-	top: 0;
+.focuspoint-fieldgroup .fieldgroup-field  {
+	display: none;
+}
+
+.focuspoint-fieldgroup .fieldgroup-field:first-child,
+.focuspoint-fieldgroup.debug .fieldgroup-field  {
+	display: block;
 }
