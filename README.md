@@ -80,6 +80,16 @@ If you are caching page content that includes a CroppedFocusedImage and you edit
 
 SilverStripe FocusPoint provides an easy and automated way to get better results when forcing an image to be a different aspect ratio. I have some vague plans to offer more fine-grained control over individual crops in the future, but until then I recommend checking out Will Morgan's [SilverStripe CropperField](https://github.com/willmorgan/silverstripe-cropperfield) as an alternative.
 
+### Flush generated images on focus point change
+
+You can specify that resampled versions of an image should be flushed when its focus point is changed by setting the `FocusPointImage.flush_on_change` config value. For example:
+
+```yml
+# config.yml
+FocusPointImage:
+  flush_on_change: true
+```
+
 ## Troubleshooting
 
 ### The FocusPoint field in the CMS appears broken
@@ -89,6 +99,8 @@ If the focus point field shows a non-interactive image and a text field with a c
 ### Focus point has been changed but image has not updated
 
 As a cache-busting mechanism this module includes approximate focus point coordinates in generated filenames. This means that if the focus point is updating correctly in the CMS but you're not seeing images change on your website, it's likely that you're viewing cached HTML output and need to invalidate that to see the updated image.
+
+Other SilverStripe modules can also prevent images being regenerated when the focus point is changed. You can work around this by telling SilverStripe to [delete resampled versions of an image when its focus point is changed](#flush-generated-images-on-focus-point-change).
 
 ## To Do
 

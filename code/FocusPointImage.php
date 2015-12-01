@@ -12,6 +12,12 @@ class FocusPointImage extends DataExtension {
 		'FocusX' => '0',
 		'FocusY' => '0'
 	);
+
+	/**
+	 * @var boolean
+	 * @config
+	 */
+	private static $flush_on_change = false;
 	
 	public function updateCMSFields(FieldList $fields) {
 		//Add FocusPoint field for selecting focus
@@ -35,6 +41,13 @@ class FocusPointImage extends DataExtension {
 			$coords = FocusPointField::fieldValueToSourceCoords($this->owner->FocusXY);
 			$this->owner->FocusX = $coords[0];
 			$this->owner->FocusY = $coords[1];
+
+			if (
+				Config::inst()->get(__CLASS__, 'flush_on_change')
+				&& ($this->owner->isChanged('FocusX') || $this->owner->isChanged('FocusY'))
+			) {
+				$this->owner->deleteFormattedImages();
+			}
 		}
 		parent::onBeforeWrite();
 	}
