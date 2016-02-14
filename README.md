@@ -74,7 +74,7 @@ Try something like this to get a full-screen background image that preserves you
 <body
 	<% with $BGImage %>
 		style="background-image: url($Link);
-			background-position: $PercentageX% $PercentageY%; 
+			background-position: $PercentageX% $PercentageY%;
 			background-size: cover;"
 	<% end_with %>
 >
@@ -127,7 +127,7 @@ Other SilverStripe modules can also prevent images being regenerated when the fo
  * Internationalisation
  * Advanced cropping options and interfaces (may be an additional module)
  * Auto detect focus point via Imagga API
- 
+
 ## Maintainer contact
 
 [jonathonmenz.com](http://jonathonmenz.com)

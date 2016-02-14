@@ -3,7 +3,7 @@
 /**
  * FocusPoint Image extension.
  * Extends Image to allow automatic cropping from a selected focus point.
- * 
+ *
  * @extends DataExtension
  */
 class FocusPointImage extends DataExtension {
@@ -17,7 +17,7 @@ class FocusPointImage extends DataExtension {
 		'FocusX' => 'Double',
 		'FocusY' => 'Double'
 	);
-	
+
 	/**
 	 * Preserve default behaviour of cropping from center
 	 */
@@ -31,7 +31,7 @@ class FocusPointImage extends DataExtension {
 	 * @config
 	 */
 	private static $flush_on_change = false;
-	
+
 	/**
 	 * Add FocusPoint field for selecting focus
 	 */
@@ -43,7 +43,7 @@ class FocusPointImage extends DataExtension {
 			$fields->add($f);
 		}
 	}
-	
+
 	public function onBeforeWrite() {
 		if (
 			Config::inst()->get(__CLASS__, 'flush_on_change')
@@ -53,19 +53,19 @@ class FocusPointImage extends DataExtension {
 		}
 		parent::onBeforeWrite();
 	}
-	
+
 	/**
 	 * Generate a label describing the focus point on a 3x3 grid e.g. 'focus-bottom-left'
 	 * This could be used for a CSS class. It's probably not very useful.
 	 * Use in templates with $BasicFocusArea
-	 * 
+	 *
 	 * @return string
 	 */
 	public function BasicFocusArea() {
 		// Defaults
 		$horzFocus = "center";
 		$vertFocus = "center";
-		
+
 		// Calculate based on XY coords
 		if ($this->owner->FocusX > .333) {
 			$horzFocus = "right";
@@ -79,50 +79,50 @@ class FocusPointImage extends DataExtension {
 		if ($this->owner->FocusY < -.333) {
 			$vertFocus = "bottom";
 		}
-		
+
 		// Combine in to CSS class
 		return 'focus-'.$horzFocus.'-'.$vertFocus;
 	}
-	
+
 	/**
 	 * Generate a percentage based description of x focus point for use in CSS.
 	 * Range is 0% - 100%. Example x=.5 translates to 75%
 	 * Use in templates with {$PercentageX}%
-	 * 
+	 *
 	 * @return int
 	 */
 	public function PercentageX() {
 		return round($this->focusCoordToOffset('x', $this->owner->FocusX)*100);
 	}
-	
+
 	/**
 	 * Generate a percentage based description of y focus point for use in CSS.
 	 * Range is 0% - 100%. Example y=-.5 translates to 75%
 	 * Use in templates with {$PercentageY}%
-	 * 
+	 *
 	 * @return int
 	 */
 	public function PercentageY() {
 		return round($this->focusCoordToOffset('y', $this->owner->FocusY)*100);
 	}
-	
+
 	public function DebugFocusPoint() {
 		Requirements::css('focuspoint/css/focuspoint-debug.css');
 		return $this->owner->renderWith('FocusPointDebug');
 	}
-	
+
 	public function focusCoordToOffset($axis, $coord) {
 		// Turn a focus x/y coordinate in to an offset from left or top
 		if ($axis == 'x') return ($coord + 1)*0.5;
 		if ($axis == 'y') return ($coord - 1)*-0.5;
 	}
-	
+
 	public function focusOffsetToCoord($axis, $offset) {
 		// Turn a left/top offset in to a focus x/y coordinate
 		if ($axis == 'x') return $offset*2 - 1;
 		if ($axis == 'y') return $offset*-2 + 1;
 	}
-	
+
 	public function calculateCrop($width, $height) {
 		// Work out how to crop the image and provide new focus coordinates
 		$cropData = array(
@@ -139,10 +139,10 @@ class FocusPointImage extends DataExtension {
 			'OriginalLength' => $this->owner->getHeight(),
 			'TargetLength'   => round($height)
 		);
-		
+
 		// Avoid divide by zero error
 		if (!($cropData['x']['OriginalLength'] > 0 && $cropData['y']['OriginalLength'] > 0)) return false;
-		
+
 		// Work out which axis to crop on
 		$cropAxis = false;
 		$cropData['x']['ScaleRatio'] = $cropData['x']['OriginalLength']/$cropData['x']['TargetLength'];
@@ -158,7 +158,7 @@ class FocusPointImage extends DataExtension {
 			$scaleRatio = $cropData['y']['ScaleRatio'];
 		}
 		$cropData['CropAxis'] = $cropAxis;
-		
+
 		// Adjust dimensions for cropping
 		if ($cropAxis) {
 			// Focus point offset
@@ -182,24 +182,24 @@ class FocusPointImage extends DataExtension {
 			$newFocusOffset = ($focusPos - $focusShift)/$cropData[$cropAxis]['TargetLength'];
 			$cropData[$cropAxis]['FocusPoint'] = $this->focusOffsetToCoord($cropAxis, $newFocusOffset);
 		}
-		
+
 		return $cropData;
 	}
-	
+
 	/**
 	 * Get an image for the focus point CMS field.
-	 * 
+	 *
 	 * @return Image|null
 	 */
 	public function FocusPointFieldImage() {
 		// Use same image as CMS preview to save generating a new image - copied from File::getCMSFields()
 		return $this->owner->ScaleWidth(Config::inst()->get('Image', 'asset_preview_width'));
 	}
-	
+
 	/**
 	 * Resize and crop image to fill specified dimensions, centred on focal point
 	 * of image. Use in templates with $FocusFill.
-	 * 
+	 *
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
 	 * @return Image|null
@@ -207,13 +207,13 @@ class FocusPointImage extends DataExtension {
 	public function FocusFill($width,$height) {
 		return $this->owner->CroppedFocusedImage($width,$height,$upscale=true);
 	}
-	
+
 	/**
 	 * Crop this image to the aspect ratio defined by the specified width and
 	 * height, centred on focal point of image, then scale down the image to those
-	 * dimensions if it exceeds them. Similar to FocusFill but without 
+	 * dimensions if it exceeds them. Similar to FocusFill but without
 	 * up-sampling. Use in templates with $FocusFillMax.
-	 * 
+	 *
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
 	 * @return Image|null
@@ -221,24 +221,24 @@ class FocusPointImage extends DataExtension {
 	public function FocusFillMax($width,$height) {
 		return $this->owner->CroppedFocusedImage($width,$height,$upscale=false);
 	}
-	
+
 	public function FocusCropWidth($width) {
 		return ($this->owner->getWidth() > $width)
 			? $this->owner->CroppedFocusedImage($width, $this->owner->getHeight())
 			: $this->owner;
 	}
-	
+
 	public function FocusCropHeight($height) {
 		return ($this->owner->getHeight() > $height)
 			? $this->owner->CroppedFocusedImage($this->owner->getWidth(), $height)
 			: $this->owner;
 	}
-	
+
 	/**
 	 * Generate a resized copy of this image with the given width & height,
 	 * cropping to maintain aspect ratio and focus point. Use in templates with
 	 * $CroppedFocusedImage
-	 * 
+	 *
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to
 	 * @param boolean $upscale Will prevent upscaling if set to false
@@ -270,10 +270,10 @@ class FocusPointImage extends DataExtension {
 			return $img;
 		}
 	}
-	
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @param Image_Backend $backend
 	 * @param integer $width Width to crop to
 	 * @param integer $height Height to crop to

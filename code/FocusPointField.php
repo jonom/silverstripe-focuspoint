@@ -3,14 +3,14 @@
 /**
  * FocusPointField class.
  * Facilitates the selection of a focus point on an image.
- * 
+ *
  * @extends FieldGroup
  */
 class FocusPointField extends FieldGroup {
-	
+
 	/**
 	 * Enable to view Focus X and Focus Y fields while in Dev mode
-	 * 
+	 *
 	 * @var boolean
 	 * @config
 	 */
@@ -22,7 +22,7 @@ class FocusPointField extends FieldGroup {
 		Requirements::javascript(FRAMEWORK_DIR . '/thirdparty/jquery-entwine/dist/jquery.entwine-dist.js');
 		Requirements::javascript(FOCUSPOINT_DIR . '/javascript/FocusPointField.js');
 		Requirements::css(FOCUSPOINT_DIR . '/css/FocusPointField.css');
-		
+
 		// Create the fields
     $fields = array(
 			LiteralField::create('FocusPointGrid', $image->renderWith('FocusPointField')),
