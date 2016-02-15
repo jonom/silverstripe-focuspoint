@@ -10,7 +10,7 @@ The goal of this module is to provide some control over automatic image cropping
 
 ## Requirements
 
-SilverStripe 3.2
+SilverStripe 3.3 (SS 3.1+ support available in earlier releases)
 
 ## Installation
 
@@ -20,11 +20,7 @@ SilverStripe 3.2
 
 ### Manually
 
-Download and extract, rename the module folder 'focuspoint', place it in your project root and run a dev/build?flush=1.
-
-**Note:** Prior to SilverStripe v3.1.9 *dev/build?flush=1* did not flush .ss template files. If using SilverStripe 3.1.8 or earlier you'll need to flush the templates on a page URL e.g. *yoursite.dev/?flush=1*.
-
-Fun fact: you don't generally need to manually flush template files in SilverStripe after changing them - except when they are new or are rendered via `<% include %>`.
+I promise it's worth your time to learn how to use Composer. If painless updating isn't your thing though you can download and extract this project, rename the module folder 'focuspoint', place it in your project root and run a dev/build?flush=1.
 
 ## Basic usage
 
@@ -135,7 +131,6 @@ Other SilverStripe modules can also prevent images being regenerated when the fo
 
 ## To Do
 
- * Override Fill() instead of adding new method (Note: I've tried everything I could think of to do this. It may be impossible)
  * ImageMagick support (maybe already works - can anyone confirm?)
  * Internationalisation
  * Advanced cropping options and interfaces (may be an additional module)
