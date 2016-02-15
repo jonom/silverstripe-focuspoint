@@ -1,22 +1,26 @@
 <?php
 
-class FPImage extends Image {
+class FPImage extends Image
+{
+    public function Fill($width, $height)
+    {
+        return $this->FocusFill($width, $height);
+    }
 
-	public function Fill($width, $height) {
-		return $this->FocusFill($width, $height);
-	}
+    public function FillMax($width, $height)
+    {
+        return $this->FocusFillMax($width, $height);
+    }
 
-	public function FillMax($width, $height) {
-		return $this->FocusFillMax($width, $height);
-	}
+    public function CropWidth($width)
+    {
+        return $this->FocusCropWidth($width);
+    }
 
-	public function CropWidth($width) {
-		return $this->FocusCropWidth($width);
-	}
-
-	public function CropHeight($height) {
-		return $this->FocusCropHeight($height);
-	}
+    public function CropHeight($height)
+    {
+        return $this->FocusCropHeight($height);
+    }
 }
 
 /*
@@ -26,20 +30,20 @@ class FPImage extends Image {
 // e.g. `$Image.ScaleHeight(200).CropWidth(200)` will not use $FocusCropWidth.
 class FPImage_cached extends Image_cached {
 
-	public function Fill($width, $height) {
-		return $this->FocusFill($width, $height);
-	}
+    public function Fill($width, $height) {
+        return $this->FocusFill($width, $height);
+    }
 
-	public function FillMax($width, $height) {
-		return $this->FocusFillMax($width, $height);
-	}
+    public function FillMax($width, $height) {
+        return $this->FocusFillMax($width, $height);
+    }
 
-	public function CropWidth($width) {
-		return $this->FocusCropWidth($width);
-	}
+    public function CropWidth($width) {
+        return $this->FocusCropWidth($width);
+    }
 
-	public function CropHeight($height) {
-		return $this->FocusCropHeight($height);
-	}
+    public function CropHeight($height) {
+        return $this->FocusCropHeight($height);
+    }
 }
 */
