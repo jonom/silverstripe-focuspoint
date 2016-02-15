@@ -41,8 +41,21 @@ Use just like existing cropping functions but swap out the names:
 - $CropWidth --> $FocusCropWidth
 - $CropHeight --> $FocusCropHeight
 
+Or use the existing names... see 'Method replacement' below.
+
 ## Advanced usage
 
+### Method replacement
+
+You can swap out the `Image` class using the [injector](https://docs.silverstripe.org/en/developer_guides/extending/injector/) like this:
+
+```yml
+Injector:
+  Image:
+    class: FPImage
+```
+
+This will automatically upgrade the built-in cropping methods so that they give you focused output. Caveat: this doesn't apply to chained image methods unfortunately due to a limitation with injector support in the `Image_cached` class.
 
 ### Method chaining
 
