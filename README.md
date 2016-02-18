@@ -1,6 +1,6 @@
 # FocusPoint: Smarter Image Cropping for SilverStripe
 
-The goal of this module is to provide some control over automatic image cropping in SilverStripe.
+The goal of this module is to introduce some basic art direction to control how images are cropped in SilverStripe.
 
 **Problem:** SilverStripe crops all images from the centre. If the subject is off-centre, it may be cropped out.
 
@@ -59,9 +59,12 @@ Image method chaining e.g. `$Image.ScaleHeight(200).FocusCropWidth(200)` should 
 
 A small catch is that you can't include regular (non FocusPoint) cropping methods in the chain, as these won't re-calculate the focus point after cropping. For example `$Image.Fill(200,200).FocusCropWidth(100)` won't work properly... Not that you'd ever want to do that!
 
-### Responsive cropping
+### Front-end art direction
 
-You can use this module in combination with [jQuery FocusPoint ](https://github.com/jonom/jquery-focuspoint)to accomplish 'responsive cropping' on your website. Check out a [demo here](http://jonom.github.io/jquery-focuspoint/demos/grid/lizard.html). To set this up do something like this in your templates:
+When images are cropped/framed on the front-end of a website, you can pass through FocusPoint data to ensure the important part of your image is preserved.
+
+#### jQuery FocusPoint
+[jQuery FocusPoint ](https://github.com/jonom/jquery-focuspoint) allows you to fill a flexible container with your image, while always retaining the most important part. Check out a [demo here](http://jonom.github.io/jquery-focuspoint/demos/grid/lizard.html). Example integration:
 
 ```html
 <% with $SomeImage %>
@@ -75,7 +78,7 @@ You can use this module in combination with [jQuery FocusPoint ](https://github.
 <% end_with %>
 ```
 
-#### CSS-only version
+#### Background image with focus point preserved
 
 Try something like this to get a full-screen background image that preserves your focus point as you resize the browser window.
 
@@ -87,6 +90,14 @@ Try something like this to get a full-screen background image that preserves you
 			background-size: cover;"
 	<% end_with %>
 >
+```
+
+#### CSS transitions - zoom from focus point
+
+Ever made an image in a tile zoom in on roll over? You can make sure the zoom originates from the image's focus point like so:
+
+```html
+<img src="$Link" style="transform-origin: $PercentageX% $PercentageY%" />
 ```
 
 ### Partial cache busting
