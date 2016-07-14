@@ -14,13 +14,17 @@ SilverStripe 3.3 (SS 3.1+ support available in earlier releases)
 
 ## Installation
 
-### Composer (best practice)
+### Composer
 
-[Packagist listing](https://packagist.org/packages/jonom/focuspoint) and [installation instructions](http://doc.silverstripe.org/framework/en/trunk/installation/composer#adding-modules-to-your-project)
+```
+composer require jonom/focuspoint
+```
+
+[Packagist listing](https://packagist.org/packages/jonom/focuspoint) and [installation instructions](https://docs.silverstripe.org/en/3.4/getting_started/composer/#adding-modules-to-your-project)
 
 ### Manually
 
-I promise it's worth your time to learn how to use Composer. If painless updating isn't your thing though you can download and extract this project, rename the module folder 'focuspoint', place it in your project root and run a dev/build?flush=1.
+I promise it's worth your time to learn how to use [Composer](https://getcomposer.org/). If painless updating isn't your thing though you can download and extract this project, rename the module folder 'focuspoint', place it in your project root and run a dev/build?flush=1.
 
 ## Basic usage
 
