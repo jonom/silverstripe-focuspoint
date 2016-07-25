@@ -25,13 +25,13 @@ class FocusPointField extends FieldGroup
         Requirements::css(FOCUSPOINT_DIR.'/css/FocusPointField.css');
 
         // Create the fields
-    $fields = array(
+        $fields = array(
             LiteralField::create('FocusPointGrid', $image->renderWith('FocusPointField')),
             TextField::create('FocusX'),
             TextField::create('FocusY'),
-    );
+        );
         $this->setName('FocusPoint');
-        $this->setTitle('Focus Point');
+        $this->setTitle(_t('FocusPointField.FOCUSPOINT','Focus Point'));
         $this->addExtraClass('focuspoint-fieldgroup');
         if (Director::isDev() && $this->config()->get('debug')) {
             $this->addExtraClass('debug');

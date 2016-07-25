@@ -283,10 +283,10 @@ class FocusPointImage extends DataExtension
             $heightRatio = $this->owner->height / $height;
             if ($widthRatio < 1 && $widthRatio <= $heightRatio) {
                 $width = $this->owner->width;
-                $height = $height * $widthRatio;
+                $height = round($height * $widthRatio);
             } elseif ($heightRatio < 1) {
                 $height = $this->owner->height;
-                $width = $width * $heightRatio;
+                $width = round($width * $heightRatio);
             }
         }
         //Only resize if necessary
