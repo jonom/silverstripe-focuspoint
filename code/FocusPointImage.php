@@ -294,6 +294,10 @@ class FocusPointImage extends DataExtension
             return $this->owner;
         } elseif ($cropData = $this->calculateCrop($width, $height)) {
             $img = $this->owner->getFormattedImage('CroppedFocusedImage', $width, $height, $cropData['CropAxis'], $cropData['CropOffset']);
+            if (!$img) {
+                return null;
+            }
+
             // Update FocusPoint
             $img->FocusX = $cropData['x']['FocusPoint'];
             $img->FocusY = $cropData['y']['FocusPoint'];
