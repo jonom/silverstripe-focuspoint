@@ -5,6 +5,9 @@ After: 'framework/*','cms/*'
 Image:
   extensions:
     - FocusPointImage
+
 # Injector:
+#   ImagickBackend:
+#     class: "FPImagickBackend"
 #   Image:
 #     class: FPImage

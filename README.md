@@ -23,7 +23,6 @@ SilverStripe 3.3+ (SS 3.1+ support available in earlier releases)
 
 ## To Do
 
- * ImageMagick support (maybe already works - can anyone confirm?)
  * Internationalisation
  * Advanced cropping options and interfaces (may be an additional module)
  * Auto detect focus point via Imagga API
