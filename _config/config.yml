@@ -6,8 +6,10 @@ Image:
   extensions:
     - FocusPointImage
 
-# Injector:
-#   ImagickBackend:
-#     class: "FPImagickBackend"
-#   Image:
-#     class: FPImage
+#FocusPointField:
+#  debug: true
+#Injector:
+#  ImagickBackend:
+#    class: "FPImagickBackend"
+#  Image:
+#    class: FPImage

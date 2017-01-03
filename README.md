@@ -1,5 +1,10 @@
 # FocusPoint: Smarter Image Cropping for SilverStripe
 
+[![Build Status](https://travis-ci.org/jonom/silverstripe-focuspoint.svg?branch=master)](https://travis-ci.org/jonom/focuspoint)
+[![Latest Stable Version](https://poser.pugx.org/jonom/focuspoint/v/stable)](https://packagist.org/packages/jonom/focuspoint)
+[![Latest Unstable Version](https://poser.pugx.org/jonom/focuspoint/v/unstable)](https://packagist.org/packages/jonom/focuspoint)
+[![License](https://poser.pugx.org/jonom/focuspoint/license)](https://packagist.org/packages/jonom/focuspoint)
+
 The goal of this module is to introduce some basic art direction to control how images are cropped in SilverStripe.
 
 **Problem:** SilverStripe crops all images from the centre. If the subject is off-centre, it may be cropped out.
