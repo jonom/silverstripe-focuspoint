@@ -16,6 +16,22 @@ class FocusPointField extends FieldGroup
      */
     private static $debug = false;
 
+    /**
+     * Maximum width of preview image
+     *
+     * @var integer
+     * @config
+     */
+    private static $max_width = 300;
+
+    /**
+     * Maximum height of preview image
+     *
+     * @var integer
+     * @config
+     */
+    private static $max_height = 150;
+
     public function __construct(Image $image)
     {
         // Load necessary scripts and styles
@@ -25,8 +41,9 @@ class FocusPointField extends FieldGroup
         Requirements::css(FOCUSPOINT_DIR.'/css/FocusPointField.css');
 
         // Create the fields
+        $previewImage = $image->FitMax($this->config()->get('max_width'), $this->config()->get('max_height'));
         $fields = array(
-            LiteralField::create('FocusPointGrid', $image->renderWith('FocusPointField')),
+            LiteralField::create('FocusPointGrid', $previewImage->renderWith('FocusPointField')),
             TextField::create('FocusX'),
             TextField::create('FocusY'),
         );

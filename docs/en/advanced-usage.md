@@ -59,6 +59,16 @@ Ever made an image in a tile zoom in on roll over? You can make sure the zoom or
 <img src="$Link" style="transform-origin: $PercentageX% $PercentageY%" />
 ```
 
+## Make the CMS preview bigger or smaller
+
+You can change the preview size like so:
+
+```yml
+FocusPointField:
+  max_width: 500
+  max_height: 300
+```
+
 ## Partial cache busting
 
 If you are caching page content that includes a FocusFill and you edit the image (i.e. by changing the focus point) but not the page, you may want to invalidate the page's cache as the updated FocusFill will have a different filename. Gordon Banderson has written a [robust extension](https://github.com/gordonbanderson/weboftalent-imageeditpartialcachebust) to help you achieve this.

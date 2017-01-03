@@ -213,6 +213,7 @@ class FocusPointImage extends DataExtension
      * Get an image for the focus point CMS field.
      *
      * @return Image|null
+     * @deprecated 3.0
      */
     public function FocusPointFieldImage()
     {
