@@ -278,6 +278,8 @@ class FocusPointImage extends DataExtension
      */
     public function CroppedFocusedImage($width, $height, $upscale = true)
     {
+        $width = intval($width);
+        $height = intval($height);
         // Don't enlarge
         if (!$upscale) {
             $widthRatio = $this->owner->width / $width;
