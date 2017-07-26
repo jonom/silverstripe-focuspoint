@@ -8,9 +8,11 @@ You can swap out the `Image` class using the [injector](https://docs.silverstrip
 Injector:
   Image:
     class: FPImage
+  Image_Cached:
+    class: FPImage_Cached
 ```
 
-This will automatically upgrade the built-in cropping methods so that they give you focused output. Caveat: this doesn't apply to chained image methods unfortunately due to a limitation with injector support in the `Image_cached` class.
+This will automatically upgrade the built-in cropping methods so that they give you focused output.
 
 ## Method chaining
 

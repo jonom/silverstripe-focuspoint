@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Override default cropping methods with FocusPoint versions
+ *
+ * @extends Image
+ */
 class FPImage extends Image
 {
     public function Fill($width, $height)
@@ -23,12 +28,12 @@ class FPImage extends Image
     }
 }
 
-/*
-// This is required to ensure manipulated images get their methods overidden too,
-// but it doesn't work because Image_cached isn't compatible with the injector.
-// Not having this in place means chained method chaining doesn't work properly
-// e.g. `$Image.ScaleHeight(200).CropWidth(200)` will not use $FocusCropWidth.
-class FPImage_cached extends Image_cached {
+/**
+ * Ensure manipulated images get their methods overidden too, for method chaining
+ *
+ * @extends Image_cached
+ */
+class FPImage_Cached extends Image_Cached {
 
     public function Fill($width, $height) {
         return $this->FocusFill($width, $height);
@@ -46,4 +51,3 @@ class FPImage_cached extends Image_cached {
         return $this->FocusCropHeight($height);
     }
 }
-*/

@@ -15,7 +15,7 @@ The goal of this module is to introduce some basic art direction to control how 
 
 ## Requirements
 
-SilverStripe 3.3+ (SS 3.1+ support available in earlier releases)
+SilverStripe 3.6+ (SS 3.1+ support available in earlier releases)
 
 ## Documentation
 

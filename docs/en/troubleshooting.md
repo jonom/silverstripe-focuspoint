@@ -30,3 +30,7 @@ If the focus point field shows a non-interactive image and a text field with a c
 As a cache-busting mechanism this module includes approximate focus point coordinates in generated filenames. This means that if the focus point is updating correctly in the CMS but you're not seeing images change on your website, it's likely that you're viewing cached HTML output and need to invalidate that to see the updated image.
 
 Other SilverStripe modules can also prevent images being regenerated when the focus point is changed. You can work around this by telling SilverStripe to [delete resampled versions of an image when its focus point is changed](#flush-generated-images-on-focus-point-change).
+
+### Warning messages and broken images after upgrading to SilverStripe 3.6+
+
+SilverStripe 3.6 introduced Injector support for `Image_Cached`. If you're using the FPImage class through the Injector, you now need to also use the `FPImage_Cached` class. See [Method replacement](advanced-usage.md#method-replacement).

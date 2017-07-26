@@ -3,5 +3,5 @@
 		<img src="$link" alt="" width="$Width" height="$Height" />
 		<div class="crosshair" style="left:$PercentageX%; top:$PercentageY%;"></div>
 	</div>
-	<p class="info">$Name<br>FocusX: $FocusX, FocusY: $FocusY</p>
+	<p class="info">$Name<br>FocusX: $FocusX, FocusY: $FocusY, Class: $ClassName</p>
 </div>

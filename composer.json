@@ -9,6 +9,6 @@
 		"homepage": "http://jonathonmenz.com"
 	}],
 	"require": {
-		"silverstripe/framework": "^3.3"
+		"silverstripe/framework": "^3.6"
 	}
 }
