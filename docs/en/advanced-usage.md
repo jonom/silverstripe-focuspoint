@@ -1,19 +1,5 @@
 # Advanced usage
 
-## Method replacement
-
-You can swap out the `Image` class using the [injector](https://docs.silverstripe.org/en/developer_guides/extending/injector/) like this:
-
-```yml
-Injector:
-  Image:
-    class: FPImage
-  Image_Cached:
-    class: FPImage_Cached
-```
-
-This will automatically upgrade the built-in cropping methods so that they give you focused output.
-
 ## Method chaining
 
 Image method chaining e.g. `$Image.ScaleHeight(200).FocusCropWidth(200)` should work from SilverStripe 3.3 onwards and update the focus point accordingly. This is helpful if you want to make use of the focal point in templates e.g. for the Responsive Cropping example below.
@@ -78,13 +64,3 @@ If you are caching page content that includes a FocusFill and you edit the image
 ## Fine-tuned cropping in individual contexts
 
 SilverStripe FocusPoint provides an easy and automated way to get better results when forcing an image to be a different aspect ratio. I have some vague plans to offer more fine-grained control over individual crops in the future, but until then I recommend checking out Will Morgan's [SilverStripe CropperField](https://github.com/willmorgan/silverstripe-cropperfield) as an alternative.
-
-## Flush generated images on focus point change
-
-You can specify that resampled versions of an image should be flushed when its focus point is changed by setting the `FocusPointImage.flush_on_change` config value. For example:
-
-```yml
-# config.yml
-FocusPointImage:
-  flush_on_change: true
-```

@@ -12,5 +12,3 @@ Use just like existing cropping functions but swap out the names:
 - `$FillMax` --> `$FocusFillMax`
 - `$CropWidth` --> `$FocusCropWidth`
 - `$CropHeight` --> `$FocusCropHeight`
-
-Or use the existing names... see 'Method replacement' in [Advanced usage](advanced-usage.md).

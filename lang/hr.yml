@@ -1,3 +1,3 @@
 hr:
-  FocusPointField:
+  JonoM\FocusPoint\FocusPointField:
     FOCUSPOINT: 'Točka fokusa'

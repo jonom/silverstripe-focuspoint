@@ -1,5 +1,13 @@
 <?php
 
+namespace JonoM\FocusPoint;
+
+use SilverStripe\Assets\Image;
+use SilverStripe\Assets\Folder;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Assets\Filesystem;
+use SilverStripe\Dev\SapphireTest;
+
 class FocusPointTest extends SapphireTest
 {
     protected static $fixture_file = 'FocusPointTest.yml';
@@ -22,10 +30,10 @@ class FocusPointTest extends SapphireTest
         }
 
         // Create a test folders for each of the fixture references
-        $folderIDs = $this->allFixtureIDs('Folder');
+        $folderIDs = $this->allFixtureIDs(Folder::class);
 
         foreach ($folderIDs as $folderID) {
-            $folder = DataObject::get_by_id('Folder', $folderID);
+            $folder = DataObject::get_by_id(Folder::class, $folderID);
 
             if (!file_exists(BASE_PATH."/$folder->Filename")) {
                 mkdir(BASE_PATH."/$folder->Filename");
@@ -33,9 +41,9 @@ class FocusPointTest extends SapphireTest
         }
 
         // Copy test images for each of the fixture references
-        $imageIDs = $this->allFixtureIDs('Image');
+        $imageIDs = $this->allFixtureIDs(Image::class);
         foreach ($imageIDs as $imageID) {
-            $image = DataObject::get_by_id('Image', $imageID);
+            $image = DataObject::get_by_id(Image::class, $imageID);
             $filePath = BASE_PATH."/$image->Filename";
             $sourcePath = str_replace('assets/ImageTest/', FOCUSPOINT_DIR.'/tests/', $filePath);
             if (!file_exists($filePath)) {
@@ -56,18 +64,18 @@ class FocusPointTest extends SapphireTest
         }
 
         // Remove the test files that we've created
-        $fileIDs = $this->allFixtureIDs('Image');
+        $fileIDs = $this->allFixtureIDs(Image::class);
         foreach ($fileIDs as $fileID) {
-            $file = DataObject::get_by_id('Image', $fileID);
+            $file = DataObject::get_by_id(Image::class, $fileID);
             if ($file && file_exists(BASE_PATH."/$file->Filename")) {
                 unlink(BASE_PATH."/$file->Filename");
             }
         }
 
         // Remove the test folders that we've created
-        $folderIDs = $this->allFixtureIDs('Folder');
+        $folderIDs = $this->allFixtureIDs(Folder::class);
         foreach ($folderIDs as $folderID) {
-            $folder = DataObject::get_by_id('Folder', $folderID);
+            $folder = DataObject::get_by_id(Folder::class, $folderID);
             if ($folder && file_exists(BASE_PATH."/$folder->Filename")) {
                 Filesystem::removeFolder(BASE_PATH."/$folder->Filename");
             }
@@ -84,25 +92,25 @@ class FocusPointTest extends SapphireTest
      */
     public function Images()
     {
-        $pngLeftTop = $this->objFromFixture('Image', 'pngLeftTop');
+        $pngLeftTop = $this->objFromFixture(Image::class, 'pngLeftTop');
         $pngLeftTop->VerticalSliceTopLeftColor = 'ff0000';
         $pngLeftTop->VerticalSliceBottomRightColor = '00ff00';
         $pngLeftTop->HorizontalSliceTopLeftColor = 'ff0000';
         $pngLeftTop->HorizontalSliceBottomRightColor = 'ffff00';
 
-        $pngRightTop = $this->objFromFixture('Image', 'pngRightTop');
+        $pngRightTop = $this->objFromFixture(Image::class, 'pngRightTop');
         $pngRightTop->VerticalSliceTopLeftColor = 'ffff00';
         $pngRightTop->VerticalSliceBottomRightColor = '0000ff';
         $pngRightTop->HorizontalSliceTopLeftColor = 'ff0000';
         $pngRightTop->HorizontalSliceBottomRightColor = 'ffff00';
 
-        $pngRightBottom = $this->objFromFixture('Image', 'pngRightBottom');
+        $pngRightBottom = $this->objFromFixture(Image::class, 'pngRightBottom');
         $pngRightBottom->VerticalSliceTopLeftColor = 'ffff00';
         $pngRightBottom->VerticalSliceBottomRightColor = '0000ff';
         $pngRightBottom->HorizontalSliceTopLeftColor = '00ff00';
         $pngRightBottom->HorizontalSliceBottomRightColor = '0000ff';
 
-        $pngLeftBottom = $this->objFromFixture('Image', 'pngLeftBottom');
+        $pngLeftBottom = $this->objFromFixture(Image::class, 'pngLeftBottom');
         $pngLeftBottom->VerticalSliceTopLeftColor = 'ff0000';
         $pngLeftBottom->VerticalSliceBottomRightColor = '00ff00';
         $pngLeftBottom->HorizontalSliceTopLeftColor = '00ff00';

@@ -1,7 +1,7 @@
 {
 	"name": "jonom/focuspoint",
+    "type": "silverstripe-vendormodule",
 	"description": "Smarter automatic image cropping for SilverStripe",
-	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "crop", "cropping", "focus", "focuspoint", "image"],
 	"license": "MIT",
 	"authors": [{
@@ -9,6 +9,21 @@
 		"homepage": "http://jonathonmenz.com"
 	}],
 	"require": {
-		"silverstripe/framework": "^3.6"
-	}
+        "silverstripe/vendor-plugin": "^1.0",
+		"silverstripe/framework": "^4.0"
+	},
+    "extra": {
+        "expose": [
+            "client"
+        ],
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "JonoM\\FocusPoint\\": "src/",
+            "JonoM\\FocusPoint\\Tests\\": "tests/"
+        }
+    }
 }

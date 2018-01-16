@@ -15,7 +15,7 @@ The goal of this module is to introduce some basic art direction to control how 
 
 ## Requirements
 
-SilverStripe 3.6+ (SS 3.1+ support available in earlier releases)
+SilverStripe ~4 (SS 3.1+ support available in earlier releases)
 
 ## Documentation
 
@@ -23,6 +23,7 @@ SilverStripe 3.6+ (SS 3.1+ support available in earlier releases)
 * [Basic Usage](docs/en/basic-usage.md)
 * [Advanced Usage](docs/en/advanced-usage.md)
 * [Troubleshooting](docs/en/troubleshooting.md)
+* [Change log](changelog.md)
 * [License](license.md)
 * [Contributing](contributing.md)
 
@@ -36,9 +37,10 @@ SilverStripe 3.6+ (SS 3.1+ support available in earlier releases)
 
 [jonathonmenz.com](http://jonathonmenz.com)
 
-## Tip jar
+## Sponsorship
 
-If this module helped you out and you want to say thanks, you're welcome to make a small donation or shout me a steam game.
+I don't have much time to donate to open source work anymore but if you're willing to sponsor the development of new features or updates I'm very happy to talk to you - please [get in touch](http://jonathonmenz.com).
+
+Just want to say thanks? You're welcome to make a small donation.
 
 [![Donate via PayPal](http://jonathonmenz.com/static/github/donate_paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z5HEZREZSKA6A)
-[![Donate via PayPal](http://jonathonmenz.com/static/github/donate_steam.png)](https://steamcommunity.com/profiles/76561198039777765/wishlist)

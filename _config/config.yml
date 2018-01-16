@@ -1,20 +1,22 @@
 ---
 Name: focuspoint
-After: 'framework/*','cms/*'
+After:
+    - 'assetsimage'
 ---
-Image:
+SilverStripe\Assets\Image:
   extensions:
-    - FocusPointImage
-
-# FocusPointField:
-#   debug: true
-#   max_width: 500
-#   max_height: 300
-
-# Injector:
-#   Image:
-#     class: FPImage
-#   Image_Cached:
-#     class: FPImage_Cached
-#   ImagickBackend:
-#     class: "FPImagickBackend"
+    - JonoM\FocusPoint\FocusPointImageExtension
+SilverStripe\Assets\Storage\DBFile:
+  extensions:
+    - JonoM\FocusPoint\FocusPointImageExtension
+SilverStripe\AssetAdmin\Forms\AssetFormFactory:
+  extensions:
+    - JonoM\FocusPoint\FocusPointAssetFormFactoryExtension
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_css:
+    - 'jonom/focuspoint: client/css/FocusPointField.css'
+  extra_requirements_javascript:
+    - 'jonom/focuspoint: client/javascript/FocusPointField.js'
+# SilverStripe\Core\Injector\Injector:
+#   SilverStripe\Assets\Image_Backend:
+#     class: JonoM\FocusPoint\InterventionBackend

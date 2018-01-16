@@ -7,8 +7,22 @@
 				var fieldSelector = "input[name='Focus" + axis.toUpperCase() + "']";
 				return this.closest('.focuspoint-fieldgroup').find(fieldSelector);
 			},
+			dispatchFieldChange: function(axis, value) {
+				var fieldName = (axis === 'x') ? 'FocusX' : 'FocusY';
+				if (window.hasOwnProperty('ss') && window.ss.hasOwnProperty('store')) {
+					window.ss.store.dispatch({
+						type: '@@redux-form/CHANGE',
+						meta: {
+						  form: 'AssetAdmin.EditForm.fileEditForm',
+						  field: fieldName,
+						},
+						payload: value
+					});
+				}
+			},
 			updateGrid: function() {
 				var grid = $(this);
+				// Note: this behaviour is replicated in FocusPointImageExtension.php
 
 				// Get coordinates from text fields
 				var focusX = grid.getCoordField('x').val();
@@ -35,7 +49,6 @@
 				var offsetY = e.pageY - grid.offset().top;
 				var focusX = (offsetX/fieldW - .5)*2;
 				var focusY = (offsetY/fieldH - .5)*-2;
-				// console.log('FocusX: '+focusX+' FocusY: '+focusY);
 
 				// Pass coordinates to form fields
 				this.getCoordField('x').val(focusX);
@@ -44,17 +57,10 @@
 				// Update focus point grid
 				this.updateGrid();
 
-			},
-			onadd: function() {
-				// Position focus grid on form field
-				var grid = $(this);
-				grid.updateGrid();
-				// May not have worked - try again after image loads
-				grid.prev('img').load(function(){
-					grid.updateGrid();
-				});
+				// Updating the inputs isn't enough for React-based asset admin
+				this.dispatchFieldChange('x', focusX);
+				this.dispatchFieldChange('y', focusY);
 			}
-
 		});
 	});
 }(jQuery));
