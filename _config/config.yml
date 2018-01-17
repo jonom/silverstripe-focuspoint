@@ -9,7 +9,7 @@ SilverStripe\Assets\Image:
 SilverStripe\Assets\Storage\DBFile:
   extensions:
     - JonoM\FocusPoint\FocusPointImageExtension
-SilverStripe\AssetAdmin\Forms\AssetFormFactory:
+SilverStripe\AssetAdmin\Forms\ImageFormFactory:
   extensions:
     - JonoM\FocusPoint\FocusPointAssetFormFactoryExtension
 SilverStripe\Admin\LeftAndMain:
