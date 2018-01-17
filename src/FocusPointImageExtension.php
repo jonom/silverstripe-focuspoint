@@ -234,16 +234,18 @@ class FocusPointImageExtension extends DataExtension
     {
         $width = intval($width);
         $height = intval($height);
+        $imgW = $this->owner->getWidth();
+        $imgH = $this->owner->getHeight();
         // Don't enlarge
         if (!$upscale) {
-            $widthRatio = $this->owner->width / $width;
-            $heightRatio = $this->owner->height / $height;
+            $widthRatio = $imgW / $width;
+            $heightRatio = $imgH / $height;
             if ($widthRatio < 1 && $widthRatio <= $heightRatio) {
-                $width = $this->owner->width;
-                $height = round($height * $widthRatio);
+                $width = $imgW;
+                $height = intval(round($height * $widthRatio));
             } elseif ($heightRatio < 1) {
-                $height = $this->owner->height;
-                $width = round($width * $heightRatio);
+                $height = $imgH;
+                $width = intval(round($width * $heightRatio));
             }
         }
         //Only resize if necessary
