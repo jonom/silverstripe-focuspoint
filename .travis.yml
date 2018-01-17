@@ -1,21 +1,34 @@
 # See https://github.com/silverstripe-labs/silverstripe-travis-support for setup details
 
-sudo: false
-
 language: php
-
-php:
-  - 5.6
+sudo: false
+dist: trusty
 
 env:
-  - DB=MYSQL CORE_RELEASE=3.6
+  global:
+    - COMPOSER_ROOT_VERSION=3.0.x-dev
+    - SS_ENVIRONMENT_TYPE="dev"
+
+matrix:
+  include:
+    - php: 5.6
+      env:
+        - DB=MYSQL
+    - php: 7.1
+      env:
+        - DB=PGSQL
 
 before_script:
+  # Init PHP
   - composer self-update || true
-  - git clone git://github.com/silverstripe-labs/silverstripe-travis-support.git ~/travis-support
-  - php ~/travis-support/travis_setup.php --source `pwd` --target ~/builds/ss
-  - cd ~/builds/ss
-  - composer install
+  - phpenv rehash
+  - phpenv config-rm xdebug.ini || true
+
+  # Install composer dependencies
+  - export PATH=~/.composer/vendor/bin:$PATH
+  - composer validate
+  - composer install --prefer-dist
+  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:2.0.x-dev --prefer-dist; fi
 
 script:
-  - vendor/bin/phpunit focuspoint/tests
+  - vendor/bin/phpunit

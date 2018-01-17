@@ -1,32 +1,36 @@
-Folder:
+SilverStripe\Assets\Folder:
   folder1:
-    Filename: assets/ImageTest/
-Image:
+    Name: folder
+SilverStripe\Assets\Image:
   pngLeftTop:
     Title: PNG w left/top focus point
-    Filename: assets/ImageTest/pngTestImage.png
-    Parent: =>Folder.folder1
+    Name: pngTestImage.png
+    FileFilename: folder/pngTestImage.png
+    FileHash: 9c2e4494af6f4b01a590d82dbaa44f6be8b63f05
+    Parent: =>SilverStripe\Assets\Folder.folder1
     FocusX: -.25
     FocusY: .25
-    FocusBG: ff0000
   pngRightTop:
     Title: PNG w right/top focus point
-    Filename: assets/ImageTest/pngTestImage.png
-    Parent: =>Folder.folder1
+    Name: pngTestImage.png
+    FileFilename: folder/pngTestImage.png
+    FileHash: 9c2e4494af6f4b01a590d82dbaa44f6be8b63f05
+    Parent: =>SilverStripe\Assets\Folder.folder1
     FocusX: .25
     FocusY: .25
-    FocusBG: ffff00
   pngRightBottom:
     Title: PNG w right/bottom focus point
-    Filename: assets/ImageTest/pngTestImage.png
-    Parent: =>Folder.folder1
+    Name: pngTestImage.png
+    FileFilename: folder/pngTestImage.png
+    FileHash: 9c2e4494af6f4b01a590d82dbaa44f6be8b63f05
+    Parent: =>SilverStripe\Assets\Folder.folder1
     FocusX: .25
     FocusY: -.25
-    FocusBG: 0000ff
   pngLeftBottom:
     Title: PNG w left/bottom focus point
-    Filename: assets/ImageTest/pngTestImage.png
-    Parent: =>Folder.folder1
+    Name: pngTestImage.png
+    FileFilename: folder/pngTestImage.png
+    FileHash: 9c2e4494af6f4b01a590d82dbaa44f6be8b63f05
+    Parent: =>SilverStripe\Assets\Folder.folder1
     FocusX: -.25
     FocusY: -.25
-    FocusBG: 00ff00
