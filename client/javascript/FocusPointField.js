@@ -4,11 +4,11 @@
 		$('.focuspoint-field .grid').entwine({
 
 			getCoordField: function(axis) {
-				var fieldSelector = "input[name='Focus" + axis.toUpperCase() + "']";
+				var fieldSelector = "input[name='FocusPointFocus" + axis.toUpperCase() + "']";
 				return this.closest('.focuspoint-fieldgroup').find(fieldSelector);
 			},
 			dispatchFieldChange: function(axis, value) {
-				var fieldName = (axis === 'x') ? 'FocusX' : 'FocusY';
+				var fieldName = (axis === 'x') ? 'FocusPointFocusX' : 'FocusPointFocusY';
 				if (window.hasOwnProperty('ss') && window.ss.hasOwnProperty('store')) {
 					window.ss.store.dispatch({
 						type: '@@redux-form/CHANGE',

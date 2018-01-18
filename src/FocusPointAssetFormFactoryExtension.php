@@ -23,7 +23,7 @@ class FocusPointAssetFormFactoryExtension extends Extension
         if ($image && $image->appCategory() === 'image') {
             $fields->insertAfter(
                 'Title',
-                FocusPointField::create($image)
+                FocusPointField::create('FocusPoint', $image->fieldLabel('FocusPoint'), $image)
             );
         }
     }

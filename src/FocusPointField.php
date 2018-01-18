@@ -4,7 +4,7 @@ namespace JonoM\FocusPoint;
 
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
-use SilverStripe\Forms\CompositeField;
+use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 
@@ -14,7 +14,7 @@ use SilverStripe\Forms\TextField;
  *
  * @extends FieldGroup
  */
-class FocusPointField extends CompositeField
+class FocusPointField extends FieldGroup
 {
     /**
      * Enable to view Focus X and Focus Y fields while in Dev mode.
@@ -44,8 +44,8 @@ class FocusPointField extends CompositeField
     {
         // Create the fields
         $fields = [
-            TextField::create('FocusX'),
-            TextField::create('FocusY')
+            TextField::create($name . 'FocusX'),
+            TextField::create($name . 'FocusY')
         ];
 
         if ($image) {
@@ -55,9 +55,10 @@ class FocusPointField extends CompositeField
 
         parent::__construct($fields);
 
-        $this->setName($name);
-        $this->setTitle($title);
-        $this->addExtraClass('focuspoint-fieldgroup');
+        $this
+            ->setName($name)
+            ->setTitle($title)
+            ->setAttribute('data-basename', $name);
         if (Director::isDev() && $this->config()->get('debug')) {
             $this->addExtraClass('debug');
         }
