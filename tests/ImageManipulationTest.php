@@ -10,9 +10,9 @@ use SilverStripe\Assets\Tests\Storage\AssetStoreTest\TestAssetStore;
 use SilverStripe\Dev\SapphireTest;
 
 
-class FocusPointTest extends SapphireTest
+class ImageManipulationTest extends SapphireTest
 {
-    protected static $fixture_file = 'FocusPointTest.yml';
+    protected static $fixture_file = 'ImageManipulationTest.yml';
 
     public function setUp()
     {

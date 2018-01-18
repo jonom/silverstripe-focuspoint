@@ -6,6 +6,7 @@ namespace JonoM\FocusPoint\FieldType;
 use JonoM\FocusPoint\FocusPointField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
+use SilverStripe\Assets\Storage\AssetContainer;
 use SilverStripe\Assets\Storage\DBFile;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\FieldType\DBComposite;
@@ -65,17 +66,32 @@ class DBFocusPoint extends DBComposite
 
     public function exists()
     {
+        // Is always true for this composite field, since it defaults to 0,0
         return true;
     }
 
+    /**
+     * @inheritdoc
+     * @return FocusPointField
+     */
     public function scaffoldFormField($title = null, $params = null)
     {
-        return FocusPointField::create($this->name, $title);
+        return FocusPointField::create(
+            $this->name,
+            $title,
+            $this->record instanceof Image ? $this->record : null
+        );
     }
 
+    /**
+     * Turn a focus x/y coordinate in to an offset from left or top
+     * @param string $axis either 'x' or 'y'
+     * @param double $coord the coordinate to transform
+     * @return double
+     */
     public function focusCoordToOffset($axis, $coord)
     {
-        // Turn a focus x/y coordinate in to an offset from left or top
+        //
         if ($axis == 'x') {
             return ($coord + 1) * 0.5;
         } else {
@@ -83,9 +99,14 @@ class DBFocusPoint extends DBComposite
         }
     }
 
+    /**
+     * Turn a left/top offset in to a focus x/y coordinate
+     * @param string $axis either 'x' or 'y'
+     * @param double $offset the offset to transform
+     * @return double
+     */
     public function focusOffsetToCoord($axis, $offset)
     {
-        // Turn a left/top offset in to a focus x/y coordinate
         if ($axis == 'x') {
             return $offset * 2 - 1;
         } else {
@@ -173,6 +194,14 @@ class DBFocusPoint extends DBComposite
         return $cropData;
     }
 
+    /**
+     * Generate a cropped version of the given image
+     * @param int $width desired width
+     * @param int $height desired height
+     * @param Image $image the image to crop. If not set, the current record will be used
+     * @param bool $upscale whether or not upscaling is allowed
+     * @return AssetContainer|null
+     */
     public function generateFocusFill($width, $height, Image $image, $upscale = true)
     {
         if (!$image && $this->record instanceof Image) {

@@ -4,7 +4,7 @@ namespace JonoM\FocusPoint;
 
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
-use SilverStripe\Forms\FieldGroup;
+use SilverStripe\Forms\CompositeField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 
@@ -14,7 +14,7 @@ use SilverStripe\Forms\TextField;
  *
  * @extends FieldGroup
  */
-class FocusPointField extends FieldGroup
+class FocusPointField extends CompositeField
 {
     /**
      * Enable to view Focus X and Focus Y fields while in Dev mode.
@@ -40,20 +40,23 @@ class FocusPointField extends FieldGroup
      */
     private static $max_height = 150;
 
-    public function __construct(Image $image)
+    public function __construct($name, $title = null, Image $image = null)
     {
         // Create the fields
-        $previewImage = $image->FitMax($this->config()->get('max_width'), $this->config()->get('max_height'));
-        $fields = array(
-            LiteralField::create('FocusPointGrid', $previewImage->renderWith(FocusPointField::class)),
+        $fields = [
             TextField::create('FocusX'),
-            TextField::create('FocusY'),
-        );
+            TextField::create('FocusY')
+        ];
+
+        if ($image) {
+            $previewImage = $image->FitMax($this->config()->get('max_width'), $this->config()->get('max_height'));
+            array_unshift($fields, LiteralField::create('FocusPointGrid', $previewImage->renderWith(FocusPointField::class)));
+        }
 
         parent::__construct($fields);
 
-        $this->setName('FocusPoint');
-        $this->setTitle(_t('JonoM\\FocusPoint\\FocusPointField.FOCUSPOINT', 'Focus Point'));
+        $this->setName($name);
+        $this->setTitle($title);
         $this->addExtraClass('focuspoint-fieldgroup');
         if (Director::isDev() && $this->config()->get('debug')) {
             $this->addExtraClass('debug');

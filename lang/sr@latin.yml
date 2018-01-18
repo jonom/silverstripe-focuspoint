@@ -1,3 +1,3 @@
 sr@latin:
-  JonoM\FocusPoint\FocusPointField:
-    FOCUSPOINT: 'Tačka fokusa'
+  SilverStripe\Assets\Image:
+    db_FocusPoint: 'Tačka fokusa'
