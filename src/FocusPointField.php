@@ -3,12 +3,10 @@
 namespace JonoM\FocusPoint;
 
 use SilverStripe\Assets\Image;
-use SilverStripe\View\Requirements;
-use JonoM\FocusPoint\FocusPointField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\TextField;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldGroup;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\TextField;
 
 /**
  * FocusPointField class.

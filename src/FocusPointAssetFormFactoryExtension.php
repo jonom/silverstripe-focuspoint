@@ -20,7 +20,7 @@ class FocusPointAssetFormFactoryExtension extends Extension
     public function updateFormFields(FieldList $fields, $controller, $formName, $context)
     {
         $image = isset($context['Record']) ? $context['Record'] : null;
-        if ($image) {
+        if ($image && $image->appCategory() === 'image') {
             $fields->insertAfter(
                 'Title',
                 FocusPointField::create($image)

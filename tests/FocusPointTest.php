@@ -1,6 +1,6 @@
 <?php
 
-namespace Jonom\FocusPoint\Tests;
+namespace JonoM\FocusPoint\Tests;
 
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
