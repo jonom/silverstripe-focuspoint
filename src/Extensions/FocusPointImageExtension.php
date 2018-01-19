@@ -1,6 +1,6 @@
 <?php
 
-namespace JonoM\FocusPoint;
+namespace JonoM\FocusPoint\Extensions;
 
 use JonoM\FocusPoint\Dev\FocusPointMigrationTask;
 use JonoM\FocusPoint\FieldType\DBFocusPoint;

@@ -5,13 +5,13 @@ After:
 ---
 SilverStripe\Assets\Image:
   extensions:
-    - JonoM\FocusPoint\FocusPointImageExtension
+    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
 SilverStripe\Assets\Storage\DBFile:
   extensions:
-    - JonoM\FocusPoint\FocusPointImageExtension
+    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
 SilverStripe\AssetAdmin\Forms\ImageFormFactory:
   extensions:
-    - JonoM\FocusPoint\FocusPointAssetFormFactoryExtension
+    - JonoM\FocusPoint\Extensions\FocusPointAssetFormFactoryExtension
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
     - 'jonom/focuspoint: client/css/FocusPointField.css'

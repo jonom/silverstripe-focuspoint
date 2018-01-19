@@ -1,9 +1,10 @@
 <?php
 
-namespace JonoM\FocusPoint;
+namespace JonoM\FocusPoint\Extensions;
 
-use SilverStripe\Forms\FieldList;
+use JonoM\FocusPoint\Forms\FocusPointField;
 use SilverStripe\Core\Extension;
+use SilverStripe\Forms\FieldList;
 
 /**
  * FocusPoint Asset Form Factory extension.

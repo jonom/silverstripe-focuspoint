@@ -1,6 +1,6 @@
 <?php
 
-namespace JonoM\FocusPoint;
+namespace JonoM\FocusPoint\Forms;
 
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
