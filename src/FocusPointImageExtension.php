@@ -2,6 +2,7 @@
 
 namespace JonoM\FocusPoint;
 
+use JonoM\FocusPoint\Dev\FocusPointMigrationTask;
 use JonoM\FocusPoint\FieldType\DBFocusPoint;
 use SilverStripe\Assets\Image;
 use SilverStripe\ORM\DataExtension;
@@ -116,5 +117,11 @@ class FocusPointImageExtension extends DataExtension
     public function FocusFill($width, $height, $upscale = true)
     {
         return $this->owner->getField('FocusPoint')->generateFocusFill($width, $height, $this->owner, $upscale);
+    }
+
+    public function requireDefaultRecords()
+    {
+        $autoMigrate = FocusPointMigrationTask::create();
+        $autoMigrate->up();
     }
 }
