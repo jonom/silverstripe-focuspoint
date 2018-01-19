@@ -59,15 +59,16 @@ class FocusPointImageExtension extends DataExtension
      *
      * @return string
      */
-    public function FieldGridBackgroundCSS()
+    public function FieldGridBackgroundCSS($width, $height)
     {
         // Calculate background positions
         $backgroundWH = 605; // Width (and also height, since it's square) of grid crosshair background image
         $bgOffset = floor(-$backgroundWH/2);
-        $fieldW = $this->owner->getWidth();
-        $fieldH = $this->owner->getHeight();
-        $leftBG = $bgOffset+(($this->owner->FocusX/2 +.5)*$fieldW);
-        $topBG = $bgOffset+((-$this->owner->FocusY/2 +.5)*$fieldH);
+        $fieldW = $width ?: $this->owner->getWidth();
+        $fieldH = $height ?: $this->owner->getHeight();
+        $leftBG = $bgOffset+(($this->owner->getField('FocusPoint')->FocusX/2 +.5)*$fieldW);
+
+        $topBG = $bgOffset+((-$this->owner->getField('FocusPoint')->FocusY/2 +.5)*$fieldH);
 
         // Line up crosshairs with click position
         return 'background-position: ' . $leftBG . 'px ' . $topBG . 'px;';

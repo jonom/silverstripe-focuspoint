@@ -50,7 +50,10 @@ class FocusPointField extends FieldGroup
 
         if ($image) {
             $previewImage = $image->FitMax($this->config()->get('max_width'), $this->config()->get('max_height'));
-            array_unshift($fields, LiteralField::create('FocusPointGrid', $previewImage->renderWith(FocusPointField::class)));
+            array_unshift($fields, LiteralField::create('FocusPointGrid', $previewImage->renderWith(
+                FocusPointField::class,
+                ['FieldGridBackgroundCSS' => $image->FieldGridBackgroundCSS($previewImage->getWidth(), $previewImage->getHeight())]
+            )));
         }
 
         parent::__construct($fields);
@@ -58,7 +61,8 @@ class FocusPointField extends FieldGroup
         $this
             ->setName($name)
             ->setTitle($title)
-            ->setAttribute('data-basename', $name);
+            ->addExtraClass('focuspoint-fieldgroup');
+
         if (Director::isDev() && $this->config()->get('debug')) {
             $this->addExtraClass('debug');
         }
