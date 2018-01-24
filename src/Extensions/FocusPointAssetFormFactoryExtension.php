@@ -25,6 +25,7 @@ class FocusPointAssetFormFactoryExtension extends Extension
             $fields->insertAfter(
                 'Title',
                 FocusPointField::create('FocusPoint', $image->fieldLabel('FocusPoint'), $image)
+                    ->setReadonly($formName === 'fileSelectForm')
             );
         }
     }

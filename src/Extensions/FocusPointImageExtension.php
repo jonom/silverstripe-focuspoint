@@ -32,7 +32,10 @@ class FocusPointImageExtension extends DataExtension
      */
     public function PercentageX()
     {
-        return round($this->focusCoordToOffset('x', $this->owner->getField('FocusPoint')->FocusX) * 100);
+        if ($field = $this->owner->FocusPoint) {
+            return round(DBFocusPoint::focusCoordToOffset($field->getX()) * 100);
+        }
+        return 0;
     }
 
     /**
@@ -44,35 +47,18 @@ class FocusPointImageExtension extends DataExtension
      */
     public function PercentageY()
     {
-        return round($this->focusCoordToOffset('y', $this->owner->getField('FocusPoint')->FocusY) * 100);
+        if ($field = $this->owner->FocusPoint) {
+            return round(DBFocusPoint::focusCoordToOffset($field->getY()) * 100);
+        }
+        return 0;
     }
 
     public function DebugFocusPoint()
     {
-        Requirements::css('jonom/focuspoint: client/css/focuspoint-debug.css');
+        Requirements::css('jonom/focuspoint: client/dist/styles/debug.css');
         return $this->owner->renderWith('JonoM/FocusPoint/FocusPointDebug');
     }
 
-    /**
-     * Pre-render CSS for positioning crosshairs in focuspoint field.
-     * This prevents lag or miscalculation.
-     *
-     * @return string
-     */
-    public function FieldGridBackgroundCSS($width, $height)
-    {
-        // Calculate background positions
-        $backgroundWH = 605; // Width (and also height, since it's square) of grid crosshair background image
-        $bgOffset = floor(-$backgroundWH/2);
-        $fieldW = $width ?: $this->owner->getWidth();
-        $fieldH = $height ?: $this->owner->getHeight();
-        $leftBG = $bgOffset+(($this->owner->getField('FocusPoint')->FocusX/2 +.5)*$fieldW);
-
-        $topBG = $bgOffset+((-$this->owner->getField('FocusPoint')->FocusY/2 +.5)*$fieldH);
-
-        // Line up crosshairs with click position
-        return 'background-position: ' . $leftBG . 'px ' . $topBG . 'px;';
-    }
 
     /**
      * Crop this image to the aspect ratio defined by the specified width and
@@ -117,7 +103,7 @@ class FocusPointImageExtension extends DataExtension
      */
     public function FocusFill($width, $height, $upscale = true)
     {
-        return $this->owner->getField('FocusPoint')->generateFocusFill($width, $height, $this->owner, $upscale);
+        return $this->owner->FocusPoint->FocusFill($width, $height, $this->owner, $upscale);
     }
 
     public function requireDefaultRecords()

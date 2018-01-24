@@ -1,0 +1,37 @@
+{
+  "name": "jonom-focuspoint",
+  "version": "3.0",
+  "description": "Smarter automatic image cropping for SilverStripe",
+  "license": "MIT",
+  "author": "Jonathon Menz",
+  "engines": {
+    "node": "^6.x"
+  },
+  "scripts": {
+    "build": "yarn && NODE_ENV=production webpack -p --bail --progress",
+    "dev": "NODE_ENV=development webpack --progress",
+    "watch": "yarn && NODE_ENV=development webpack --watch --progress",
+    "css": "yarn && WEBPACK_CHILD=css webpack -p --bail --progress",
+    "lock": "npm-shrinkwrap --dev",
+    "lint": "eslint client/src && sass-lint -v client/src"
+  },
+  "devDependencies": {
+    "@silverstripe/webpack-config": "^0.5",
+    "svg-url-loader": "^2.3.1"
+  },
+  "dependencies": {
+    "react": "15.3.1",
+    "react-dom": "15.3.1",
+    "react-redux": "^4.4.5",
+    "redux": "^3.3.1"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
+    ]
+  }
+}

@@ -27,13 +27,13 @@ class FocusPointMigrationTask extends MigrationTask
     // upgrade to new version
     public function up()
     {
-        $this->changeDbFields('Focus', 'FocusPointFocus', 'Updated FocusPoint fields from v2 to v3');
+        $this->changeDbFields('Focus', 'FocusPoint', 'Updated FocusPoint fields from v2 to v3');
     }
 
     // Revert to old version
     public function down()
     {
-        $this->changeDbFields('FocusPointFocus', 'Focus', 'Downgraded FocusPoint fields from v3 to v2');
+        $this->changeDbFields('FocusPoint', 'Focus', 'Downgraded FocusPoint fields from v3 to v2');
     }
 
     protected function changeDbFields($from, $to, $message)
@@ -59,7 +59,7 @@ class FocusPointMigrationTask extends MigrationTask
 
             $query = SQLUpdate::create("\"$imageTable\"")
                 ->assignSQL($newColumnX, $oldColumnX)
-                ->assignSQL($newColumnY, $oldColumnY);
+                ->assignSQL($newColumnY, "$oldColumnY * -1");
 
             $query->execute();
 

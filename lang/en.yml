@@ -1,3 +1,5 @@
 en:
   SilverStripe\Assets\Image:
     db_FocusPoint: 'Focus Point'
+  JonoM\FocusPoint\Forms\FocusPointField:
+    FieldToolTip: 'Click on the subject of the image to ensure it is not lost during cropping'

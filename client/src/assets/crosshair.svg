@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="11px" viewBox="0 0 11 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>crosshair</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="crosshair">
+            <rect id="Rectangle" fill-opacity="0.75" fill="#FFFFFF" x="4" y="0" width="3" height="11"></rect>
+            <rect id="Rectangle-Copy" fill-opacity="0.75" fill="#FFFFFF" x="0" y="4" width="11" height="3"></rect>
+            <rect id="Rectangle-Copy-3" fill="#000000" x="5" y="1" width="1" height="9"></rect>
+            <rect id="Rectangle-Copy-2" fill="#000000" x="1" y="5" width="9" height="1"></rect>
+        </g>
+    </g>
+</svg>
