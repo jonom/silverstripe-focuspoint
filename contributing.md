@@ -5,6 +5,12 @@
 - Supply documentation that follows the [GitHub Flavored Markdown](https://help.github.com/articles/markdown-basics/) conventions
 - When having discussions about this module in issues or pull request please adhere to the [SilverStripe Community Code of Conduct](https://docs.silverstripe.org/en/contributing/code_of_conduct/)
 
+## Contributing to JS and CSS Code
+
+Whenever you create a PR that includes changes to JS or SCSS files, you have to create a release build of the JS and CSS files and include the resulting files in `client/dist` in your PR!
+Please do not commit development builds.
+
+For more information, please read how the [build-tools](build-tools.md) work.
 
 ## Contributor license agreement
 By supplying code to this module in patches, tickets and pull requests, you agree to assign copyright
