@@ -4,8 +4,19 @@
 
 ## 3.0
 
+* Changed from two individual Fields on `Image` to a composite DB-field.
 * Injector support was removed as it was buggy. You'll have to use the FocusPoint method names for now instead of SilverStripe's built in cropping methods. :(
 * `flush_on_change` config option was removed as their is no longer a public API for removing resampled images.
+* Implemented a focus-point react component
+* Switched Y-Coordinates upside down (from 1 = top, -1 = bottom to -1 = top, 1 = bottom). Existing coordinates will automatically be converted by the migration task.
+
+#### Migration
+
+Field values will automatically migrate from 2.x to 3.x. If you need to migrate back from 3.x to 2.x, follow these steps:
+
+ - revert the module to the 2.x version
+ - do `dev/build`
+ - Run the `FocusPointMigrationTask` with "direction=down". Eg. `sake dev/tasks/FocusPointMigrationTask "direction=down"`
 
 ## 2.0
 

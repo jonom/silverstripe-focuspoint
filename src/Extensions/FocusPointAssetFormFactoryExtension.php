@@ -1,9 +1,10 @@
 <?php
 
-namespace JonoM\FocusPoint;
+namespace JonoM\FocusPoint\Extensions;
 
-use SilverStripe\Forms\FieldList;
+use JonoM\FocusPoint\Forms\FocusPointField;
 use SilverStripe\Core\Extension;
+use SilverStripe\Forms\FieldList;
 
 /**
  * FocusPoint Asset Form Factory extension.
@@ -20,10 +21,11 @@ class FocusPointAssetFormFactoryExtension extends Extension
     public function updateFormFields(FieldList $fields, $controller, $formName, $context)
     {
         $image = isset($context['Record']) ? $context['Record'] : null;
-        if ($image) {
+        if ($image && $image->appCategory() === 'image') {
             $fields->insertAfter(
                 'Title',
-                FocusPointField::create($image)
+                FocusPointField::create('FocusPoint', $image->fieldLabel('FocusPoint'), $image)
+                    ->setReadonly($formName === 'fileSelectForm')
             );
         }
     }

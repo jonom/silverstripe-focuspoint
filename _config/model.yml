@@ -1,0 +1,7 @@
+---
+Name: focuspoint-fieldtypes
+After: corefieldtypes
+---
+SilverStripe\Core\Injector\Injector:
+  FocusPoint:
+    class: JonoM\FocusPoint\FieldType\DBFocusPoint

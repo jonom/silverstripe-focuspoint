@@ -26,6 +26,7 @@ SilverStripe ~4 (SS 3.1+ support available in earlier releases)
 * [Change log](changelog.md)
 * [License](license.md)
 * [Contributing](contributing.md)
+* [Build-Tools](build-tools.md)
 
 ## To Do
 

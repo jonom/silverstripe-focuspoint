@@ -1,3 +1,3 @@
 it:
-  JonoM\FocusPoint\FocusPointField:
-    FOCUSPOINT: 'Punto Focale'
+  SilverStripe\Assets\Image:
+    db_FocusPoint: 'Punto Focale'

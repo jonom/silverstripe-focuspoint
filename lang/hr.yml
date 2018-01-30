@@ -1,3 +1,3 @@
 hr:
-  JonoM\FocusPoint\FocusPointField:
-    FOCUSPOINT: 'Točka fokusa'
+  SilverStripe\Assets\Image:
+    db_FocusPoint: 'Točka fokusa'

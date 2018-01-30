@@ -3,20 +3,17 @@ Name: focuspoint
 After:
     - 'assetsimage'
 ---
-SilverStripe\Assets\Image:
-  extensions:
-    - JonoM\FocusPoint\FocusPointImageExtension
 SilverStripe\Assets\Storage\DBFile:
   extensions:
-    - JonoM\FocusPoint\FocusPointImageExtension
+    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
+SilverStripe\Assets\Image:
+  extensions:
+    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
 SilverStripe\AssetAdmin\Forms\ImageFormFactory:
   extensions:
-    - JonoM\FocusPoint\FocusPointAssetFormFactoryExtension
+    - JonoM\FocusPoint\Extensions\FocusPointAssetFormFactoryExtension
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
-    - 'jonom/focuspoint: client/css/FocusPointField.css'
+    - 'jonom/focuspoint: client/dist/styles/main.css'
   extra_requirements_javascript:
-    - 'jonom/focuspoint: client/javascript/FocusPointField.js'
-# SilverStripe\Core\Injector\Injector:
-#   SilverStripe\Assets\Image_Backend:
-#     class: JonoM\FocusPoint\InterventionBackend
+    - 'jonom/focuspoint: client/dist/js/main.js'

@@ -1,0 +1,37 @@
+.focuspoint-debug {
+  &__image {
+    display: inline-block;
+    position: relative;
+    img {
+      display: inline-block;
+      margin: 0;
+      line-height: 1;
+      max-width: none;
+      max-height: none;
+    }
+  }
+
+  &__crosshair {
+    position: absolute;
+    width: 19px;
+    height: 19px;
+    border: 1px solid black;
+    margin: -10px 0 0 -10px;
+    border-radius: 100px;
+    &:after, &:before {
+      content: "";
+      position: absolute;
+      top: 9px;
+      left: 0;
+      height: 1px;
+      width: 100%;
+      background: white;
+    }
+    &:after {
+      top: 0;
+      left: 9px;
+      height: 100%;
+      width: 1px;
+    }
+  }
+}

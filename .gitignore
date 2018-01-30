@@ -1,1 +1,8 @@
+.sass-cache
 .DS_Store
+npm-debug.log
+node_modules/
+coverage/
+/**/*.js.map
+/**/*.css.map
+artifacts/

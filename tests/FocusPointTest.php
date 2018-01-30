@@ -1,152 +1,45 @@
 <?php
 
-namespace Jonom\FocusPoint\Tests;
+namespace JonoM\FocusPoint\Tests;
 
-use SilverStripe\Assets\File;
-use SilverStripe\Assets\Folder;
-use SilverStripe\Assets\Image;
-use SilverStripe\Assets\InterventionBackend;
-use SilverStripe\Assets\Tests\Storage\AssetStoreTest\TestAssetStore;
+
+use JonoM\FocusPoint\FieldType\DBFocusPoint;
 use SilverStripe\Dev\SapphireTest;
-
+use SilverStripe\ORM\FieldType\DBField;
 
 class FocusPointTest extends SapphireTest
 {
-    protected static $fixture_file = 'FocusPointTest.yml';
+    /** @var DBFocusPoint */
+    protected $focusPoint = null;
 
     public function setUp()
     {
         parent::setUp();
-
-        // Set backend root to /images
-        TestAssetStore::activate('images');
-
-        // Copy test images for each of the fixture references
-        /** @var File $image */
-        $files = File::get()->exclude('ClassName', Folder::class);
-        foreach ($files as $image) {
-            $sourcePath = __DIR__ . '/images/' . $image->Name;
-            $image->setFromLocalFile($sourcePath, $image->Filename);
-        }
-
-        // Set default config
-        InterventionBackend::config()->set('error_cache_ttl', [
-            InterventionBackend::FAILED_INVALID => 0,
-            InterventionBackend::FAILED_MISSING => '5,10',
-            InterventionBackend::FAILED_UNKNOWN => 300,
-        ]);
+        $this->focusPoint = DBField::create_field(DBFocusPoint::class, [0.5, 0.25]);
     }
 
-    public function tearDown()
+    public function testCoordToOffset()
     {
-        TestAssetStore::reset();
-        parent::tearDown();
+        $this->assertEquals(0.75, DBFocusPoint::focusCoordToOffset(0.5));
+        $this->assertEquals(0.625, DBFocusPoint::focusCoordToOffset(0.25));
+        $this->assertEquals(0.375, DBFocusPoint::focusCoordToOffset(-0.25));
+        $this->assertEquals(0, DBFocusPoint::focusCoordToOffset(-1));
+        $this->assertEquals(0.5, DBFocusPoint::focusCoordToOffset(0));
+        $this->assertEquals(1.0, DBFocusPoint::focusCoordToOffset(1));
     }
 
-    /**
-     * Get some image objects with various focus points.
-     */
-    public function Images()
+    public function testOffsetToCoord()
     {
-        $pngLeftTop = $this->objFromFixture(Image::class, 'pngLeftTop');
-        $pngLeftTop->VerticalSliceTopLeftColor = '#ff0000';
-        $pngLeftTop->VerticalSliceBottomRightColor = '#00ff00';
-        $pngLeftTop->HorizontalSliceTopLeftColor = '#ff0000';
-        $pngLeftTop->HorizontalSliceBottomRightColor = '#ffff00';
-
-        $pngRightTop = $this->objFromFixture(Image::class, 'pngRightTop');
-        $pngRightTop->VerticalSliceTopLeftColor = '#ffff00';
-        $pngRightTop->VerticalSliceBottomRightColor = '#0000ff';
-        $pngRightTop->HorizontalSliceTopLeftColor = '#ff0000';
-        $pngRightTop->HorizontalSliceBottomRightColor = '#ffff00';
-
-        $pngRightBottom = $this->objFromFixture(Image::class, 'pngRightBottom');
-        $pngRightBottom->VerticalSliceTopLeftColor = '#ffff00';
-        $pngRightBottom->VerticalSliceBottomRightColor = '#0000ff';
-        $pngRightBottom->HorizontalSliceTopLeftColor = '#00ff00';
-        $pngRightBottom->HorizontalSliceBottomRightColor = '#0000ff';
-
-        $pngLeftBottom = $this->objFromFixture(Image::class, 'pngLeftBottom');
-        $pngLeftBottom->VerticalSliceTopLeftColor = '#ff0000';
-        $pngLeftBottom->VerticalSliceBottomRightColor = '#00ff00';
-        $pngLeftBottom->HorizontalSliceTopLeftColor = '#00ff00';
-        $pngLeftBottom->HorizontalSliceBottomRightColor = '#0000ff';
-
-        return array($pngLeftTop, $pngRightTop, $pngRightBottom, $pngLeftBottom);
+        $this->assertEquals(0.5, DBFocusPoint::focusOffsetToCoord(0.75));
+        $this->assertEquals(0.25, DBFocusPoint::focusOffsetToCoord(0.625));
+        $this->assertEquals(-0.25, DBFocusPoint::focusOffsetToCoord(0.375));
+        $this->assertEquals(-1, DBFocusPoint::focusOffsetToCoord(0));
+        $this->assertEquals(0, DBFocusPoint::focusOffsetToCoord(0.5));
+        $this->assertEquals(1.0, DBFocusPoint::focusOffsetToCoord(1));
     }
 
-    public function testFocusFill()
+    public function testCalculateCrop()
     {
-        $images = $this->Images();
-
-        // Test focus crop
-        foreach ($images as $img) {
-            // Crop a vertical slice
-            $croppedVert = $img->FocusFill(1, 50);
-            $this->assertTrue($croppedVert->isSize(1, 50));
-            $im = $croppedVert->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor =  $im->pickColor(0, 49, 'hex');
-            $this->assertEquals($img->VerticalSliceTopLeftColor, $leftTopColor);
-            $this->assertEquals($img->VerticalSliceBottomRightColor, $bottomRightColor);
-
-            // Crop a horizontal slice
-            $croppedHorz = $img->FocusFill(50, 1);
-            $this->assertTrue($croppedHorz->isSize(50, 1));
-            $im = $croppedHorz->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(49, 0, 'hex');
-            $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
-            $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
-
-        }
-    }
-
-    public function testFocusFillMax()
-    {
-        $images = $this->Images();
-
-        foreach ($images as $img) {
-            // Downscale
-
-            // Crop a vertical slice
-            $croppedVert = $img->FocusFillMax(1, 50);
-            $this->assertTrue($croppedVert->isSize(1, 50));
-            $im = $croppedVert->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(0, 49, 'hex');
-            $this->assertEquals($img->VerticalSliceTopLeftColor, $leftTopColor);
-            $this->assertEquals($img->VerticalSliceBottomRightColor, $bottomRightColor);
-
-            // Crop a horizontal slice
-            $croppedHorz = $img->FocusFillMax(50, 1);
-            $this->assertTrue($croppedHorz->isSize(50, 1));
-            $im = $croppedHorz->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(49, 0, 'hex');
-            $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
-            $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
-
-            // Upscale
-
-            // Crop a vertical slice
-            $croppedVert = $img->FocusFillMax(1, 200);
-            $this->assertTrue($croppedVert->isSize(1, 100));
-            $im = $croppedVert->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(0, 99, 'hex');
-            $this->assertEquals($img->VerticalSliceTopLeftColor, $leftTopColor);
-            $this->assertEquals($img->VerticalSliceBottomRightColor, $bottomRightColor);
-
-            // Crop a horizontal slice
-            $croppedHorz = $img->FocusFillMax(200, 1);
-            $this->assertTrue($croppedHorz->isSize(100, 1));
-            $im = $croppedHorz->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(99, 0, 'hex');
-            $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
-            $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
-
-        }
+        $this->markTestIncomplete('Implement crop calculation tests');
     }
 }
