@@ -1,7 +1,7 @@
-import React, {PropTypes, Component, cloneElement} from 'react';
+import React, {Component, cloneElement} from 'react';
 import classNames from 'classnames';
 import { inject } from 'lib/Injector';
-
+import PropTypes from 'prop-types';
 
 class FocusPointField extends Component {
   constructor(props) {
@@ -99,12 +99,12 @@ FocusPointField.defaultProps = {
 };
 
 FocusPointField.propTypes = {
-  extraClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
+  extraClass: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
   onAutofill: PropTypes.func,
-  readOnly: React.PropTypes.bool
+  readOnly: PropTypes.bool
 };
 
 export { FocusPointField as Component };
