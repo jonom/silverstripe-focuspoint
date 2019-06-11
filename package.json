@@ -20,10 +20,11 @@
     "svg-url-loader": "^2.3.1"
   },
   "dependencies": {
-    "react": "15.3.1",
-    "react-dom": "15.3.1",
-    "react-redux": "^4.4.5",
-    "redux": "^3.3.1"
+    "prop-types": "^15.6.2",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0"
   },
   "babel": {
     "presets": [

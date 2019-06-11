@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
 import classNames from 'classnames';
 
 class FocusPointPicker extends Component {

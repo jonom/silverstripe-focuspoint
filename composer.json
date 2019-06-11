@@ -19,7 +19,7 @@
     ],
     "require": {
         "silverstripe/vendor-plugin": "^1.0",
-        "silverstripe/asset-admin": "^1.0"
+        "silverstripe/asset-admin": "^1.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7"
