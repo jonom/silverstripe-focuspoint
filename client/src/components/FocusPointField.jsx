@@ -1,12 +1,12 @@
-import React, {PropTypes, Component, cloneElement} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { inject } from 'lib/Injector';
 
+class FocusPointField extends React.Component {
 
-class FocusPointField extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       FocusX: props.data ? props.data.X : 0,
       FocusY: props.data ? props.data.Y : 0
@@ -50,7 +50,7 @@ class FocusPointField extends Component {
   renderChildren(children, isDebug) {
     if (isDebug) {
       return children.map((child, key) => (
-        cloneElement(child, {
+        React.cloneElement(child, {
           // overload the children change handler
           onChange: (e) => this.handleFieldChange(key, e),
           key,
@@ -99,12 +99,12 @@ FocusPointField.defaultProps = {
 };
 
 FocusPointField.propTypes = {
-  extraClass: React.PropTypes.string,
-  id: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired,
+  extraClass: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
   onAutofill: PropTypes.func,
-  readOnly: React.PropTypes.bool
+  readOnly: PropTypes.bool
 };
 
 export { FocusPointField as Component };
@@ -112,4 +112,4 @@ export { FocusPointField as Component };
 export default inject(
   ['FieldGroup', 'FocusPointPicker']
 )(FocusPointField);
-//export default fieldHolder(FocusPointField);
+

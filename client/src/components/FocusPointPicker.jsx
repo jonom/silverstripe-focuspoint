@@ -1,7 +1,8 @@
-import React, {PropTypes, Component} from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-class FocusPointPicker extends Component {
+class FocusPointPicker extends React.Component {
+  
   constructor(props) {
     super(props);
     this.state = {
@@ -12,6 +13,7 @@ class FocusPointPicker extends Component {
   }
 
   handleClick(event) {
+
     if (this.props.readOnly) {
       return;
     }

@@ -5,13 +5,13 @@
   "license": "MIT",
   "author": "Jonathon Menz",
   "engines": {
-    "node": "^6.x"
+    "node": "^10.x"
   },
   "scripts": {
-    "build": "yarn && NODE_ENV=production webpack -p --bail --progress",
-    "dev": "NODE_ENV=development webpack --progress",
-    "watch": "yarn && NODE_ENV=development webpack --watch --progress",
-    "css": "yarn && WEBPACK_CHILD=css webpack -p --bail --progress",
+    "build": "NODE_ENV=production node_modules/.bin/webpack -p --bail --progress",
+    "dev": "NODE_ENV=development node_modules/.bin/webpack --progress",
+    "watch": "NODE_ENV=development node_modules/.bin/webpack --watch --progress",
+    "css": "WEBPACK_CHILD=css node_modules/.bin/webpack -p --bail --progress",
     "lock": "npm-shrinkwrap --dev",
     "lint": "eslint client/src && sass-lint -v client/src"
   },
@@ -20,8 +20,8 @@
     "svg-url-loader": "^2.3.1"
   },
   "dependencies": {
-    "react": "15.3.1",
-    "react-dom": "15.3.1",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
     "react-redux": "^4.4.5",
     "redux": "^3.3.1"
   },
