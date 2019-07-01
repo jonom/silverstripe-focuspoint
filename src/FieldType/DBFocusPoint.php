@@ -197,10 +197,16 @@ class DBFocusPoint extends DBComposite
         if (!$image && $this->record instanceof Image) {
             $image = $this->record;
         }
+        if (!$image->exists()) {
+            return $image;
+        }
         $width = intval($width);
         $height = intval($height);
         $imgW = $image->getWidth();
         $imgH = $image->getHeight();
+        if (!$imgW || !$imgH) {
+            return $image;
+        }
 
         // Don't enlarge
         if (!$upscale) {
