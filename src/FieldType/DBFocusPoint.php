@@ -197,70 +197,73 @@ class DBFocusPoint extends DBComposite
         if (!$image && $this->record instanceof Image) {
             $image = $this->record;
         }
+
         if (!$image->exists()) {
             return $image;
         }
+
         $width = intval($width);
         $height = intval($height);
-        $imgW = $image->getWidth();
-        $imgH = $image->getHeight();
-        if (!$imgW || !$imgH) {
-            return $image;
-        }
 
-        // Don't enlarge
-        if (!$upscale) {
-            $widthRatio = $imgW / $width;
-            $heightRatio = $imgH / $height;
-            if ($widthRatio < 1 && $widthRatio <= $heightRatio) {
-                $width = $imgW;
-                $height = intval(round($height * $widthRatio));
-            } elseif ($heightRatio < 1) {
-                $height = $imgH;
-                $width = intval(round($width * $heightRatio));
+        $variant = $image->variantName(__FUNCTION__, $width, $height, round($this->getX(), 4), round($this->getY(), 4));
+        $cropped = $image->manipulateImage($variant, function (Image_Backend $backend) use ($image, $width, $height, $upscale) {
+            $imgW = $backend->getWidth();
+            $imgH = $backend->getHeight();
+            if (!$imgW || !$imgH) {
+                return null;
             }
-        }
 
-        //Only resize if necessary
-        if ($image->isSize($width, $height) && !Config::inst()->get(DBFile::class, 'force_resample')) {
+            // Don't enlarge
+            if (!$upscale) {
+                $widthRatio = $imgW / $width;
+                $heightRatio = $imgH / $height;
+                if ($widthRatio < 1 && $widthRatio <= $heightRatio) {
+                    $width = $imgW;
+                    $height = intval(round($height * $widthRatio));
+                } elseif ($heightRatio < 1) {
+                    $height = $imgH;
+                    $width = intval(round($width * $heightRatio));
+                }
+            }
+
+            // Only resize if necessary
+            if (!Config::inst()->get(DBFile::class, 'force_resample') && $image->isSize($width, $height)) {
+                return null;
+            }
+
+            $cropData = $this->calculateCrop($width, $height, $imgW, $imgH);
+            if (!$cropData) {
+                return null;
+            }
+
+            $img = null;
+            if ($cropData['CropAxis'] === 'x') {
+                // Generate image
+                $img = $backend->resizeByHeight($height)
+                    ->crop(0, $cropData['CropOffset'], $width, $height);
+            } elseif ($cropData['CropAxis'] === 'y') {
+                // Generate image
+                $img = $backend->resizeByWidth($width)
+                    ->crop($cropData['CropOffset'], 0, $width, $height);
+            } else {
+                // Generate image without cropping
+                $img = $backend->resize($width, $height);
+            }
+
+            return $img;
+        });
+
+        // If the resample wasn't necessary (e.g. image is already correct size), return the original image
+        if (!$cropped) {
             return $image;
-        } elseif ($cropData = $this->calculateCrop($width, $height, $imgW, $imgH)) {
-            $variant = $image->variantName(__FUNCTION__, $width, $height, $cropData['CropAxis'], $cropData['CropOffset']);
-            $cropped = $image->manipulateImage($variant, function (Image_Backend $backend) use ($width, $height, $cropData) {
-                $img = null;
-                $cropAxis = $cropData['CropAxis'];
-                $cropOffset = $cropData['CropOffset'];
-
-                if ($cropAxis == 'x') {
-                    //Generate image
-                    $img = $backend
-                        ->resizeByHeight($height)
-                        ->crop(0, $cropOffset, $width, $height);
-                } elseif ($cropAxis == 'y') {
-                    //Generate image
-                    $img = $backend
-                        ->resizeByWidth($width)
-                        ->crop($cropOffset, 0, $width, $height);
-                } else {
-                    //Generate image without cropping
-                    $img = $backend->resize($width, $height);
-                }
-
-                if (!$img) {
-                    return null;
-                }
-
-                return $img;
-            });
-
-            // Update FocusPoint
-            $cropped->FocusPoint = DBField::create_field(static::class, [
-                'X' => $cropData['x']['FocusPoint'],
-                'Y' => $cropData['y']['FocusPoint']
-            ]);
-
-            return $cropped;
         }
-        return null;
+
+        // Update FocusPoint
+        $cropped->FocusPoint = DBField::create_field(static::class, [
+            'X' => $this->getX(),
+            'Y' => $this->getY()
+        ]);
+
+        return $cropped;
     }
 }
