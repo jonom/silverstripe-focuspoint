@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "Jonathon Menz",
   "engines": {
-    "node": "^6.x"
+    "node": "^10.x"
   },
   "scripts": {
     "build": "yarn && NODE_ENV=production webpack -p --bail --progress",
@@ -16,7 +16,7 @@
     "lint": "eslint client/src && sass-lint -v client/src"
   },
   "devDependencies": {
-    "@silverstripe/webpack-config": "^0.5",
+    "@silverstripe/webpack-config": "^1.3",
     "svg-url-loader": "^2.3.1"
   },
   "dependencies": {

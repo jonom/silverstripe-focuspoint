@@ -1,6 +1,6 @@
 .focuspoint-field {
   $base: &;
-  div.field.text {
+  div.field {
     display: none;
   }
   &--debug {
