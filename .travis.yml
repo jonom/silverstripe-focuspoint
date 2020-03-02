@@ -2,21 +2,32 @@
 
 language: php
 sudo: false
-dist: trusty
+dist: xenial
+
+services:
+  - mysql
+  - postgresql
 
 env:
   global:
-    - COMPOSER_ROOT_VERSION=3.0.x-dev
+    - COMPOSER_ROOT_VERSION=3.x-dev
     - SS_ENVIRONMENT_TYPE="dev"
+    - DB=MYSQL
 
 matrix:
   include:
     - php: 5.6
       env:
-        - DB=MYSQL
+        - ASSET_VERSION=1.4.x-dev
     - php: 7.1
       env:
         - DB=PGSQL
+    - php: 7.3
+      env:
+        - ASSET_VERSION=1.5.x-dev
+    - php: 7.4
+      env:
+        - ASSET_VERSION=1.x-dev
 
 before_script:
   # Init PHP
@@ -27,8 +38,11 @@ before_script:
   # Install composer dependencies
   - export PATH=~/.composer/vendor/bin:$PATH
   - composer validate
-  - composer install --prefer-source
-  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:^2.2 --prefer-source; fi
+  - composer require silverstripe/assets $ASSET_VERSION --no-update
+  - composer require silverstripe/asset-admin $ASSET_VERSION --no-update
+  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:^2.2 --no-update; fi
+  - composer update --prefer-source
+
 
 script:
   - vendor/bin/phpunit

@@ -23,12 +23,16 @@ class FocusPointAssetFormFactoryExtension extends Extension
         $image = isset($context['Record']) ? $context['Record'] : null;
         if ($image && $image->appCategory() === 'image') {
             $fpField = FocusPointField::create('FocusPoint', $image->fieldLabel('FocusPoint'), $image);
-            $titleField = $fields->dataFieldByName('Title');
-            if ($titleField && $titleField->isReadonly()) $fpField = $fpField->performReadonlyTransformation();
-            $fields->insertAfter(
-                'Title',
-                $fpField
-            );
+
+            $titleField = $fields->fieldByName('Editor.Details.Title');
+            if ($titleField) {
+                if ($titleField->isReadonly()) $fpField = $fpField->performReadonlyTransformation();
+                $fields->insertAfter(
+                    'Title',
+                    $fpField
+                );
+            }
+
         }
     }
 }
