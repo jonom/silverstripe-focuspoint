@@ -1,6 +1,6 @@
 # FocusPoint: Smarter Image Cropping for SilverStripe
 
-[![Build Status](https://travis-ci.org/jonom/silverstripe-focuspoint.svg?branch=master)](https://travis-ci.org/jonom/focuspoint)
+[![Build Status](https://travis-ci.org/jonom/silverstripe-focuspoint.svg?branch=master)](https://travis-ci.org/jonom/silverstripe-focuspoint)
 [![Latest Stable Version](https://poser.pugx.org/jonom/focuspoint/v/stable)](https://packagist.org/packages/jonom/focuspoint)
 [![Latest Unstable Version](https://poser.pugx.org/jonom/focuspoint/v/unstable)](https://packagist.org/packages/jonom/focuspoint)
 [![License](https://poser.pugx.org/jonom/focuspoint/license)](https://packagist.org/packages/jonom/focuspoint)
