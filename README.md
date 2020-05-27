@@ -36,12 +36,10 @@ SilverStripe ~4 (SS 3.1+ support available in earlier releases)
 
 ## Maintainer contact
 
-[jonathonmenz.com](http://jonathonmenz.com)
+[Jono Menz](https://jonomenz.com)
 
 ## Sponsorship
 
-I don't have much time to donate to open source work anymore but if you're willing to sponsor the development of new features or updates I'm very happy to talk to you - please [get in touch](http://jonathonmenz.com).
+If you want to boost morale of the maintainer you're welcome to make a small monthly donation through [**GitHub**](https://github.com/sponsors/jonom), or a one time donation through [**PayPal**](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z5HEZREZSKA6A). ❤️ Thank you!
 
-Just want to say thanks? You're welcome to make a small donation.
-
-[![Donate via PayPal](http://jonathonmenz.com/static/github/donate_paypal.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=Z5HEZREZSKA6A)
+Please also feel free to [get in touch](https://jonomenz.com) if you want to hire the maintainer to develop a new feature, or discuss another opportunity.
