@@ -8,6 +8,7 @@ use SilverStripe\Dev\MigrationTask;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 use SilverStripe\ORM\Queries\SQLUpdate;
+use SilverStripe\Versioned\Versioned;
 
 class FocusPointMigrationTask extends MigrationTask
 {
@@ -51,20 +52,29 @@ class FocusPointMigrationTask extends MigrationTask
             throw new \Exception("$imageTable table does not have \"{$to}X\" and \"{$to}Y\" fields. Did you run dev/build?");
         }
 
-        DB::get_conn()->withTransaction(function() use ($imageTable, $from, $to, $message) {
+        // Update all Image tables
+        $imageTables = [
+            $imageTable,
+            $imageTable . "_" . Versioned::LIVE,
+            $imageTable . "_Versions",
+        ];
+
+        DB::get_conn()->withTransaction(function() use ($imageTables, $from, $to, $message) {
             $oldColumnX = "\"{$from}X\"";
             $oldColumnY = "\"{$from}Y\"";
             $newColumnX = "\"{$to}X\"";
             $newColumnY = "\"{$to}Y\"";
 
-            $query = SQLUpdate::create("\"$imageTable\"")
-                ->assignSQL($newColumnX, $oldColumnX)
-                ->assignSQL($newColumnY, "$oldColumnY * -1");
+            foreach ($imageTables as $imageTable) {
+                $query = SQLUpdate::create("\"$imageTable\"")
+                    ->assignSQL($newColumnX, $oldColumnX)
+                    ->assignSQL($newColumnY, "$oldColumnY * -1");
 
-            $query->execute();
+                $query->execute();
 
-            DB::query("ALTER TABLE \"$imageTable\" DROP COLUMN $oldColumnX");
-            DB::query("ALTER TABLE \"$imageTable\" DROP COLUMN $oldColumnY");
+                DB::query("ALTER TABLE \"$imageTable\" DROP COLUMN $oldColumnX");
+                DB::query("ALTER TABLE \"$imageTable\" DROP COLUMN $oldColumnY");
+            }
 
             DB::get_schema()->alterationMessage($message, 'changed');
         } , function () {
