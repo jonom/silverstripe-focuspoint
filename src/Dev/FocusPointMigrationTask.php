@@ -52,10 +52,10 @@ class FocusPointMigrationTask extends MigrationTask
         }
 
         DB::get_conn()->withTransaction(function() use ($imageTable, $from, $to, $message) {
-            $oldColumnX = "\"$imageTable\".\"{$from}X\"";
-            $oldColumnY = "\"$imageTable\".\"{$from}Y\"";
-            $newColumnX = "\"$imageTable\".\"{$to}X\"";
-            $newColumnY = "\"$imageTable\".\"{$to}Y\"";
+            $oldColumnX = "\"{$from}X\"";
+            $oldColumnY = "\"{$from}Y\"";
+            $newColumnX = "\"{$to}X\"";
+            $newColumnY = "\"{$to}Y\"";
 
             $query = SQLUpdate::create("\"$imageTable\"")
                 ->assignSQL($newColumnX, $oldColumnX)
