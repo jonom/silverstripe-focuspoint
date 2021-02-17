@@ -36,12 +36,12 @@ class FocusPointImageExtension extends FocusPointExtension
         if (
             (
                 $this->owner->isChanged('FileHash')
-                || empty($this->FocusPoint->Width)
-                || empty($this->FocusPoint->Height)
+                || empty($this->owner->FocusPoint->getField('Width'))
+                || empty($this->owner->FocusPoint->getField('Height'))
             ) && $this->owner->exists()
         ) {
-            $this->FocusPoint->Width = $this->owner->getWidth();
-            $this->FocusPoint->Height = $this->owner->getHeight();
+            $this->owner->FocusPoint->Width = $this->owner->getWidth();
+            $this->owner->FocusPoint->Height = $this->owner->getHeight();
         }
     }
 }
