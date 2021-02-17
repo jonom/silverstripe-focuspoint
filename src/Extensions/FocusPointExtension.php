@@ -6,6 +6,7 @@ use JonoM\FocusPoint\FieldType\DBFocusPoint;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
 use SilverStripe\Assets\Storage\DBFile;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\View\Requirements;
@@ -151,11 +152,20 @@ class FocusPointExtension extends Extension
             return null;
         }
 
+        // Respect force_resample
+        if ($cropData['x']['TargetLength'] === $cropData['x']['OriginalLength']
+            && $cropData['y']['TargetLength'] === $cropData['y']['OriginalLength']
+            && !Config::inst()->get(DBFile::class, 'force_resample')
+        ) {
+            return $this->owner;
+        }
+
+        // Defer to main manipulation
         $newImage = $this->owner->manipulateImage($variant, function (Image_Backend $backend) use ($cropData) {
-            return $this->owner->FocusPoint->applyCrop($backend, $cropData)
-                ?: $this->owner; // Use original if callback returns nothing
+            return $this->owner->FocusPoint->applyCrop($backend, $cropData);
         });
 
+        // Crop failed, no image
         if (!$newImage) {
             return null;
         }
