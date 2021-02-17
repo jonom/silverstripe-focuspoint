@@ -18,6 +18,7 @@
         }
     ],
     "require": {
+        "php": ">=7.2",
         "silverstripe/vendor-plugin": "^1.0",
         "silverstripe/asset-admin": "^1.4"
     },
