@@ -79,7 +79,7 @@ class FocusPointExtension extends Extension
     public function FocusFillMax(int $width, int $height)
     {
         $cropData = $this->owner->FocusPoint->calculateCrop($width, $height, false);
-        $variant = $this->owner->variantName(__FUNCTION__, $width, $height);
+        $variant = $this->focusPointVariantName(__FUNCTION__, $width, $height);
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -97,7 +97,7 @@ class FocusPointExtension extends Extension
         }
 
         $cropData = $this->owner->FocusPoint->calculateCrop($width, null, true);
-        $variant = $this->owner->variantName(__FUNCTION__, $width);
+        $variant = $this->focusPointVariantName(__FUNCTION__, $width);
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -115,7 +115,7 @@ class FocusPointExtension extends Extension
         }
 
         $cropData = $this->owner->FocusPoint->calculateCrop(null, $height, true);
-        $variant = $this->owner->variantName(__FUNCTION__, $height);
+        $variant = $this->focusPointVariantName(__FUNCTION__, $height);
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -134,8 +134,24 @@ class FocusPointExtension extends Extension
     public function FocusFill(int $width, int $height)
     {
         $cropData = $this->owner->FocusPoint->calculateCrop($width, $height, true);
-        $variant = $this->owner->variantName(__FUNCTION__, $width, $height);
+        $variant = $this->focusPointVariantName(__FUNCTION__, $width, $height);
         return $this->manipulateImageCropData($variant, $cropData);
+    }
+
+    /**
+     * Generate a focuspoint respective variant name
+     *
+     * @param mixed ...$args
+     * @return string
+     */
+    protected function focusPointVariantName($format, ...$args)
+    {
+        return $this->owner->variantName(
+            $format,
+            $this->owner->FocusPoint->getX(),
+            $this->owner->FocusPoint->getY(),
+            ...$args
+        );
     }
 
     /**
