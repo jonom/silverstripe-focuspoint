@@ -6,9 +6,8 @@ use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\InterventionBackend;
-use SilverStripe\Assets\Tests\Storage\AssetStoreTest\TestAssetStore;
+use SilverStripe\Assets\Dev\TestAssetStore;
 use SilverStripe\Dev\SapphireTest;
-
 
 class ImageManipulationTest extends SapphireTest
 {
@@ -98,7 +97,6 @@ class ImageManipulationTest extends SapphireTest
             $bottomRightColor = $im->pickColor(49, 0, 'hex');
             $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
-
         }
     }
 
@@ -174,7 +172,7 @@ class ImageManipulationTest extends SapphireTest
         $this->assertEquals(0.5, $pngLeftBottom->FocusPoint->getY());
 
         // crop to half the width, and full height
-        $cropped = $pngLeftBottom->FocusFillMax(50,100);
+        $cropped = $pngLeftBottom->FocusFillMax(50, 100);
         $this->assertEquals(0, $cropped->FocusPoint->getX());
         $this->assertEquals(.5, $cropped->FocusPoint->getY());
 
