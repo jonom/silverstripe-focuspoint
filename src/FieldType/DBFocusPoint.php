@@ -266,15 +266,6 @@ class DBFocusPoint extends DBComposite
     {
         $width = $cropData['x']['TargetLength'];
         $height = $cropData['y']['TargetLength'];
-
-        // Check if we should resize at all
-        if ($this->Width == $width
-            && $this->Height == $height
-            && !Config::inst()->get(DBFile::class, 'force_resample')
-        ) {
-            return null;
-        }
-
         $cropAxis = $cropData['CropAxis'];
         $cropOffset = $cropData['CropOffset'];
 
