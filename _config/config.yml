@@ -1,11 +1,11 @@
 ---
 Name: focuspoint
 After:
-    - 'assetsimage'
+  - 'assetsimage'
 ---
 SilverStripe\Assets\Storage\DBFile:
   extensions:
-    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
+    - JonoM\FocusPoint\Extensions\FocusPointDBFileExtension
 SilverStripe\Assets\Image:
   extensions:
     - JonoM\FocusPoint\Extensions\FocusPointImageExtension
