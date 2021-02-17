@@ -8,7 +8,6 @@ use JonoM\FocusPoint\Forms\FocusPointField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
 use SilverStripe\Assets\Storage\DBFile;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\FieldType\DBComposite;
 
 /**
@@ -157,10 +156,10 @@ class DBFocusPoint extends DBComposite
      * @param int|null $width desired width. Can be omitted as long as $height is provided.
      * @param int|null $height desired height. Can be omitted as long as $width is provided.
      * @param bool $upscale Is this being upscaled?
-     * @return array|false Array with fields x, y, each with array of FocusPoint, OriginalLength and TargetLength
-     * Can return false if error
+     * @return array|null Array with fields x, y, each with array of FocusPoint, OriginalLength and TargetLength
+     * Can return null if error
      */
-    public function calculateCrop(?int $width, ?int $height, bool $upscale)
+    public function calculateCrop(?int $width, ?int $height, bool $upscale): ?array
     {
         // Requested to resize to 0 results in an error
         if (empty($width) && empty($height)) {
@@ -169,7 +168,7 @@ class DBFocusPoint extends DBComposite
 
         // Not so much an error, but ignore empty files
         if (empty($this->Width) || empty($this->Height)) {
-            return false;
+            return null;
         }
 
         // Assign targets, considering that we may only be scaling on one dimension
