@@ -148,8 +148,9 @@ class FocusPointExtension extends Extension
     {
         return $this->owner->variantName(
             $format,
-            $this->owner->FocusPoint->getX(),
-            $this->owner->FocusPoint->getY(),
+            // Prevent excessively long variant string by trimming focus point to 2dp
+            sprintf("%0.2f", $this->owner->FocusPoint->getX()),
+            sprintf("%0.2f", $this->owner->FocusPoint->getY()),
             ...$args
         );
     }
