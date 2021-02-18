@@ -6,28 +6,23 @@ dist: xenial
 
 services:
   - mysql
-  - postgresql
 
 env:
   global:
-    - COMPOSER_ROOT_VERSION=3.x-dev
     - SS_ENVIRONMENT_TYPE="dev"
     - DB=MYSQL
 
 matrix:
   include:
-    - php: 5.6
+    - php: 7.2
       env:
-        - ASSET_VERSION=1.4.x-dev
-    - php: 7.1
-      env:
-        - DB=PGSQL
+        - RECIPE_VERSION=4.4.7
     - php: 7.3
       env:
-        - ASSET_VERSION=1.5.x-dev
+        - RECIPE_VERSION=4.5.3
     - php: 7.4
       env:
-        - ASSET_VERSION=1.x-dev
+        - RECIPE_VERSION=4.6.1
 
 before_script:
   # Init PHP
@@ -38,11 +33,8 @@ before_script:
   # Install composer dependencies
   - export PATH=~/.composer/vendor/bin:$PATH
   - composer validate
-  - composer require silverstripe/assets $ASSET_VERSION --no-update
-  - composer require silverstripe/asset-admin $ASSET_VERSION --no-update
-  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:^2.2 --no-update; fi
+  - composer require silverstripe/recipe-core $RECIPE_VERSION --no-update
   - composer update --prefer-source
-
 
 script:
   - vendor/bin/phpunit
