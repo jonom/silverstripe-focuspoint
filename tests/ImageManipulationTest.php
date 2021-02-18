@@ -2,6 +2,7 @@
 
 namespace JonoM\FocusPoint\Tests;
 
+use JonoM\FocusPoint\Extensions\FocusPointImageExtension;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
@@ -165,6 +166,7 @@ class ImageManipulationTest extends SapphireTest
     public function testImageChaining()
     {
         // Grab an image and set its focus point to bottom left
+        /** @var Image|FocusPointImageExtension $pngLeftBottom */
         $pngLeftBottom = $this->objFromFixture(Image::class, 'pngLeftBottom');
         $pngLeftBottom->FocusPoint->setY(0.5)->setX(-0.5);
 
