@@ -33,9 +33,12 @@ class FocusPointImageExtension extends FocusPointExtension
     public function onBeforeWrite()
     {
         // Ensure that we saved the cached image width / height whenever we change the file hash
+        // This code ignores forceChange, since we only need to know if the underlying file is modified
+        $changes = $this->owner->getChangedFields(['FileHash']);
+        $fileHashChanged = isset($changes['FileHash']) && $changes['FileHash']['before'] !== $changes['FileHash']['after'];
         if (
             (
-                $this->owner->isChanged('FileHash')
+                $fileHashChanged
                 || empty($this->owner->FocusPoint->getField('Width'))
                 || empty($this->owner->FocusPoint->getField('Height'))
             ) && $this->owner->exists()
