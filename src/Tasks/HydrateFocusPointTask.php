@@ -5,7 +5,6 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\Dev\Debug;
 use SilverStripe\ORM\ValidationException;
-use SilverStripe\Versioned\ChangeSet;
 use SilverStripe\Versioned\Versioned;
 
 class HydrateFocusPointTask extends BuildTask
@@ -30,8 +29,6 @@ class HydrateFocusPointTask extends BuildTask
         Debug::message('Found ' . $images->count() . ' images to hydrate');
 
         /** @var Image $image */
-        $changeset = ChangeSet::create();
-        $changeset->write();
         foreach ($images as $image) {
             // Skip images that aren't on the filesystem
             if (!$image->exists()) {
@@ -41,11 +38,8 @@ class HydrateFocusPointTask extends BuildTask
             // Save, and maybe publish
             $image->write();
             if ($image->isPublished()) {
-                $changeset->addObject($image);
+                $image->publishSingle();
             }
         }
-
-        // One changeset for all items to publish
-        $changeset->publish();
     }
 }
