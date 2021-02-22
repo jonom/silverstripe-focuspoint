@@ -18,7 +18,7 @@ use SilverStripe\View\Requirements;
  *
  * @extends DataExtension
  * @property DBFocusPoint $FocusPoint
- * @property DBFile|Image|FocusPointImageExtension $owner
+ * @property DBFile|Image|FocusPointExtension $owner
  */
 class FocusPointExtension extends Extension
 {
@@ -187,8 +187,9 @@ class FocusPointExtension extends Extension
             return null;
         }
 
-        // Hydrate focus point
-        if (empty($newImage->FocusPoint)) {
+        // Force refresh of new focus point for DBFile
+        // Image dataobject uses its own value.
+        if ($newImage instanceof DBFile) {
             $newFocusPoint = DBFocusPoint::create();
             $newFocusPoint->setValue([
                 'X'      => $cropData['x']['FocusPoint'],
