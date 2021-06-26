@@ -23,38 +23,6 @@ use SilverStripe\View\Requirements;
 class FocusPointExtension extends Extension
 {
     /**
-     * Generate a percentage based description of x focus point for use in CSS.
-     * Range is 0% - 100%. Example x=.5 translates to 75%
-     * Use in templates with {$PercentageX}%.
-     *
-     * @return int
-     */
-    public function PercentageX(): int
-    {
-        $field = $this->owner->FocusPoint;
-        if ($field) {
-            return intval(round(DBFocusPoint::focusCoordToOffset($field->getX()) * 100));
-        }
-        return 0;
-    }
-
-    /**
-     * Generate a percentage based description of y focus point for use in CSS.
-     * Range is 0% - 100%. Example y=-.5 translates to 75%
-     * Use in templates with {$PercentageY}%.
-     *
-     * @return int
-     */
-    public function PercentageY(): int
-    {
-        $field = $this->owner->FocusPoint;
-        if ($field) {
-            return intval(round(DBFocusPoint::focusCoordToOffset($field->getY()) * 100));
-        }
-        return 0;
-    }
-
-    /**
      * Debug output for this focus point image
      *
      * @return DBHTMLText

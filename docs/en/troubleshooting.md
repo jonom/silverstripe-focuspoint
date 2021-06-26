@@ -15,7 +15,7 @@ FocusPointField:
 
 ### Debug front-end image
 
-Add `.DebugFocusPoint` to the end of an image object in your template to output html markup showing you the focuspoint of the image.
+Add `.DebugFocusPoint` to the end of an image object in your template to output html markup showing you the focus point of the image.
 
 ```html
 $MyImage.ScaleWidth(200).DebugFocusPoint

@@ -9,6 +9,8 @@ use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
 use SilverStripe\Assets\Storage\DBFile;
 use SilverStripe\ORM\FieldType\DBComposite;
+use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\View\Requirements;
 
 /**
  * Focus point composite field.
@@ -284,5 +286,29 @@ class DBFocusPoint extends DBComposite
                 //Generate image without cropping
                 return $backend->resize($width, $height);
         }
+    }
+
+    /**
+     * Generate a percentage based description of x focus point for use in CSS.
+     * Range is 0% - 100%. Example x=.5 translates to 75%
+     * Use in templates with {$PercentageX}%.
+     *
+     * @return int
+     */
+    public function PercentageX(): int
+    {
+        return intval(round(DBFocusPoint::focusCoordToOffset($this->getX()) * 100));
+    }
+
+    /**
+     * Generate a percentage based description of y focus point for use in CSS.
+     * Range is 0% - 100%. Example y=-.5 translates to 25%
+     * Use in templates with {$PercentageY}%.
+     *
+     * @return int
+     */
+    public function PercentageY(): int
+    {
+        return intval(round(DBFocusPoint::focusCoordToOffset($this->getY()) * 100));
     }
 }
