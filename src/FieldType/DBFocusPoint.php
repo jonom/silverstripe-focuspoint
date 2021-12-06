@@ -77,7 +77,7 @@ class DBFocusPoint extends DBComposite
             return intval($width);
         }
         if ($this->record) {
-            return intval(is_array($this->record) ? $this->record["Width"] : $this->record->getWidth());
+            return intval(is_array($this->record) ? array_key_exists("Width",$this->record) : $this->record->getWidth());
         }
 
         return 0;
@@ -95,7 +95,7 @@ class DBFocusPoint extends DBComposite
             return intval($height);
         }
         if ($this->record) {
-            return intval(is_array($this->record) ? $this->record["Height"] : $this->record->getHeight());
+            return intval(is_array($this->record) ? array_key_exists("Height",$this->record) : $this->record->getHeight());
         }
         return 0;
     }
