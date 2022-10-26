@@ -27,7 +27,7 @@ class FocusPointDBFileExtension extends FocusPointExtension
         // using a non-focuspoint resize mechanism.
         /** @var ViewableData|FocusPointExtension $failover */
         $failover = $this->owner->getFailover();
-        if ($failover->hasExtension(FocusPointExtension::class)) {
+        if ($failover && $failover->hasExtension(FocusPointExtension::class)) {
             $sourceFocus = $failover->FocusPoint;
 
             // Note: Let Width / Height be lazy loaded, so don't generate here
@@ -37,7 +37,7 @@ class FocusPointDBFileExtension extends FocusPointExtension
                 'Y'      => $sourceFocus->getY(),
             ], $this->owner);
 
-            // Save this focu point and return
+            // Save this focus point and return
             $this->owner->setFocusPoint($newFocusPoint);
             return $newFocusPoint;
         }
