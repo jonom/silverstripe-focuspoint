@@ -2,7 +2,6 @@
 
 namespace JonoM\FocusPoint\Tests\Extensions;
 
-
 use JonoM\FocusPoint\Extensions\FocusPointAssetFormFactoryExtension;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
@@ -18,7 +17,7 @@ class FocusPointAssetFormFactoryExtensionTest extends SapphireTest
 
     protected static $fixture_file = '../ImageManipulationTest.yml';
 
-    public function testUpdateFormFieldsOnImageEditForm()
+    public function testUpdateFormFieldsOnImageEditForm(): void
     {
         $ext = new FocusPointAssetFormFactoryExtension();
 
@@ -44,7 +43,7 @@ class FocusPointAssetFormFactoryExtensionTest extends SapphireTest
         $this->assertNotEmpty($focusField, 'Focus field has been added to image edit form.');
     }
 
-    public function testUpdateFormFieldsOnPlacementForm()
+    public function testUpdateFormFieldsOnPlacementForm(): void
     {
         $ext = new FocusPointAssetFormFactoryExtension();
 
@@ -64,7 +63,7 @@ class FocusPointAssetFormFactoryExtensionTest extends SapphireTest
         $this->assertEmpty($focusField, 'Focus field has NOT been added to the form.');
     }
 
-    public function testUpdateFormFieldsOnNonImageForm()
+    public function testUpdateFormFieldsOnNonImageForm(): void
     {
         $ext = new FocusPointAssetFormFactoryExtension();
 

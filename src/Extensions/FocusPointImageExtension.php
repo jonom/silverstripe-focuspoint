@@ -11,7 +11,6 @@ use SilverStripe\Assets\Storage\DBFile;
  * FocusPoint Image extension.
  * Extends Image to allow automatic cropping from a selected focus point.
  *
- * @extends DataExtension
  * @property DBFocusPoint $FocusPoint
  * @property Image|DBFile|FocusPointImageExtension $owner
  */

@@ -16,7 +16,6 @@ use SilverStripe\View\Requirements;
  * Abstract extension applied to either DBFile or File dataobject
  * Extends Image to allow automatic cropping from a selected focus point.
  *
- * @extends DataExtension
  * @property DBFocusPoint $FocusPoint
  * @property DBFile|Image|FocusPointExtension $owner
  */
