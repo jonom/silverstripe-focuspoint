@@ -3,18 +3,18 @@
 namespace JonoM\FocusPoint\Tests;
 
 use JonoM\FocusPoint\Extensions\FocusPointImageExtension;
+use SilverStripe\Assets\Dev\TestAssetStore;
 use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\InterventionBackend;
-use SilverStripe\Assets\Dev\TestAssetStore;
 use SilverStripe\Dev\SapphireTest;
 
 class ImageManipulationTest extends SapphireTest
 {
     protected static $fixture_file = 'ImageManipulationTest.yml';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -37,9 +37,10 @@ class ImageManipulationTest extends SapphireTest
         ]);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         TestAssetStore::reset();
+
         parent::tearDown();
     }
 
@@ -75,7 +76,7 @@ class ImageManipulationTest extends SapphireTest
         return array($pngLeftTop, $pngRightTop, $pngRightBottom, $pngLeftBottom);
     }
 
-    public function testFocusFill()
+    public function testFocusFill(): void
     {
         $images = $this->Images();
 
@@ -101,7 +102,7 @@ class ImageManipulationTest extends SapphireTest
         }
     }
 
-    public function testFocusFillMax()
+    public function testFocusFillMax(): void
     {
         $images = $this->Images();
 
@@ -148,22 +149,23 @@ class ImageManipulationTest extends SapphireTest
         }
     }
 
-    public function testPercentages()
+    public function testPercentages(): void
     {
+        /** @var Image|FocusPointImageExtension $pngLeftTop */
         $pngLeftTop = $this->objFromFixture(Image::class, 'pngLeftTop');
-        $this->assertEquals(38, $pngLeftTop->PercentageX());
-        $this->assertEquals(38, $pngLeftTop->PercentageY());
+        $this->assertEquals(38, $pngLeftTop->FocusPoint->PercentageX());
+        $this->assertEquals(38, $pngLeftTop->FocusPoint->PercentageY());
 
         $pngLeftTop->FocusPoint->setX(0)->setY(0.5);
-        $this->assertEquals(50, $pngLeftTop->PercentageX());
-        $this->assertEquals(75, $pngLeftTop->PercentageY());
+        $this->assertEquals(50, $pngLeftTop->FocusPoint->PercentageX());
+        $this->assertEquals(75, $pngLeftTop->FocusPoint->PercentageY());
 
         $pngLeftTop->FocusPoint->setX(1)->setY(-1);
-        $this->assertEquals(100, $pngLeftTop->PercentageX());
-        $this->assertEquals(0, $pngLeftTop->PercentageY());
+        $this->assertEquals(100, $pngLeftTop->FocusPoint->PercentageX());
+        $this->assertEquals(0, $pngLeftTop->FocusPoint->PercentageY());
     }
 
-    public function testImageChaining()
+    public function testImageChaining(): void
     {
         // Grab an image and set its focus point to bottom left
         /** @var Image|FocusPointImageExtension $pngLeftBottom */
@@ -181,7 +183,7 @@ class ImageManipulationTest extends SapphireTest
         // crop the cropped image again to .75 of the height
         $cropped = $cropped->FocusFillMax(50, 75);
         $this->assertEquals(0, $cropped->FocusPoint->getX());
-        $this->assertEquals(1/3, $cropped->FocusPoint->getY());
+        $this->assertEquals(number_format(1/3,15), number_format($cropped->FocusPoint->getY(),15));
 
         // crop the cropped image again to square
         $cropped = $cropped->FocusFillMax(50, 50);
