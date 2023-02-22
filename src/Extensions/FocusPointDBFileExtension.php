@@ -18,8 +18,8 @@ class FocusPointDBFileExtension extends FocusPointExtension
      */
     public function getFocusPoint(): ?DBFocusPoint
     {
-        if (property_exists($this->owner, 'focuspoint_object')) {
-            return $this->owner->focuspoint_object;
+        if ($this->owner->hasDynamicData('focuspoint_object')) {
+            return $this->owner->getDynamicData('focuspoint_object');
         }
 
         // If this DB file was generated from a source image,
@@ -27,18 +27,23 @@ class FocusPointDBFileExtension extends FocusPointExtension
         // using a non-focuspoint resize mechanism.
         /** @var ViewableData|FocusPointExtension $failover */
         $failover = $this->owner->getFailover();
+
         if ($failover && $failover->hasExtension(FocusPointExtension::class)) {
             $sourceFocus = $failover->FocusPoint;
 
             // Note: Let Width / Height be lazy loaded, so don't generate here
             $newFocusPoint = DBFocusPoint::create();
-            $newFocusPoint->setValue([
-                'X'      => $sourceFocus->getX(),
-                'Y'      => $sourceFocus->getY(),
-            ], $this->owner);
+            $newFocusPoint->setValue(
+                [
+                    'X' => $sourceFocus->getX(),
+                    'Y' => $sourceFocus->getY(),
+                ],
+                $this->owner
+            );
 
             // Save this focus point and return
             $this->owner->setFocusPoint($newFocusPoint);
+
             return $newFocusPoint;
         }
 
@@ -53,7 +58,8 @@ class FocusPointDBFileExtension extends FocusPointExtension
      */
     public function setFocusPoint(?DBFocusPoint $point): self
     {
-        $this->owner->focuspoint_object = $point;
+        $this->owner->setDynamicData('focuspoint_object', $point);
+
         return $this;
     }
 }

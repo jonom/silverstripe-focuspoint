@@ -18,35 +18,26 @@ class FocusPointField extends FieldGroup
 {
     /**
      * Enable to view Focus X and Focus Y fields while in Dev mode.
-     *
-     * @var bool
-     * @config
      */
-    private static $debug = false;
+    private static bool $debug = false;
 
     /**
      * Maximum width of preview image
-     *
-     * @var integer
-     * @config
      */
-    private static $max_width = 300;
+    private static int $max_width = 300;
 
     /**
      * Maximum height of preview image
-     *
-     * @var integer
-     * @config
      */
-    private static $max_height = 150;
+    private static int $max_height = 150;
 
     protected $schemaDataType = FormField::SCHEMA_DATA_TYPE_CUSTOM;
 
     protected $schemaComponent = 'FocusPointField';
 
-    protected $image = null;
+    protected ?Image $image = null;
 
-    public function __construct($name, $title = null, Image $image = null)
+    public function __construct(string $name, ?string $title = null, ?Image $image = null)
     {
         // Create the fields
         $fields = [
@@ -61,6 +52,7 @@ class FocusPointField extends FieldGroup
         }
 
         $this->setName($name)->setValue('');
+
         parent::__construct($title, $fields);
     }
 
@@ -87,7 +79,7 @@ class FocusPointField extends FieldGroup
 
             if ($previewImage) {
                 $state['data'] += [
-                    'previewUrl' => $previewImage->URL,
+                    'previewUrl' => $previewImage->getURL(),
                     'previewWidth' => $previewImage->getWidth(),
                     'previewHeight' => $previewImage->getHeight(),
                     'X' => $this->image->getField($this->getName())->getX(),

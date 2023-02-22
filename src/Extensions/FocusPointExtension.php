@@ -29,9 +29,9 @@ class FocusPointExtension extends Extension
     public function DebugFocusPoint(): DBHTMLText
     {
         Requirements::css('jonom/focuspoint: client/dist/styles/debug.css');
+
         return $this->owner->renderWith('JonoM/FocusPoint/FocusPointDebug');
     }
-
 
     /**
      * Crop this image to the aspect ratio defined by the specified width and
@@ -47,6 +47,7 @@ class FocusPointExtension extends Extension
     {
         $cropData = $this->owner->FocusPoint->calculateCrop($width, $height, false);
         $variant = $this->focusPointVariantName(__FUNCTION__, $width, $height);
+
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -65,6 +66,7 @@ class FocusPointExtension extends Extension
 
         $cropData = $this->owner->FocusPoint->calculateCrop($width, null, true);
         $variant = $this->focusPointVariantName(__FUNCTION__, $width);
+
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -83,6 +85,7 @@ class FocusPointExtension extends Extension
 
         $cropData = $this->owner->FocusPoint->calculateCrop(null, $height, true);
         $variant = $this->focusPointVariantName(__FUNCTION__, $height);
+
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -102,6 +105,7 @@ class FocusPointExtension extends Extension
     {
         $cropData = $this->owner->FocusPoint->calculateCrop($width, $height, true);
         $variant = $this->focusPointVariantName(__FUNCTION__, $width, $height);
+
         return $this->manipulateImageCropData($variant, $cropData);
     }
 
@@ -158,12 +162,15 @@ class FocusPointExtension extends Extension
         // Image dataobject uses its own value.
         if ($newImage instanceof DBFile) {
             $newFocusPoint = DBFocusPoint::create();
-            $newFocusPoint->setValue([
-                'X'      => $cropData['x']['FocusPoint'],
-                'Y'      => $cropData['y']['FocusPoint'],
-                'Width'  => $cropData['x']['TargetLength'],
-                'Height' => $cropData['y']['TargetLength'],
-            ], $newImage);
+            $newFocusPoint->setValue(
+                [
+                    'X' => $cropData['x']['FocusPoint'],
+                    'Y' => $cropData['y']['FocusPoint'],
+                    'Width' => $cropData['x']['TargetLength'],
+                    'Height' => $cropData['y']['TargetLength'],
+                ],
+                $newImage
+            );
             $newImage->FocusPoint = $newFocusPoint;
         }
 
