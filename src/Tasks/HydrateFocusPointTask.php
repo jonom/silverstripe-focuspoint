@@ -37,6 +37,7 @@ class HydrateFocusPointTask extends BuildTask
 
             // Save, and maybe publish
             $image->write();
+
             if ($image->isPublished()) {
                 $image->publishSingle();
             }
