@@ -2,6 +2,12 @@
 
 > 🎶 Turn and face the strange 🎶
 
+## 5.0
+
+* Updated to support Silverstripe CMS v5 (thanks @chrispenny)
+* LegacyX/Y and OffsetX/Y helper methods added
+* Minimum PHP requirement raised to 8.1
+
 ## 4.0
 
 * Refactored to facilitate performance improvements (thanks @tractorcow and @kinglozzer)
