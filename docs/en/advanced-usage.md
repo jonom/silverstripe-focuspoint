@@ -11,19 +11,21 @@ A small catch is that you can't include regular (non FocusPoint) cropping method
 When images are cropped/framed on the front-end of a website, you can pass through FocusPoint data to ensure the important part of your image is preserved.
 
 ### jQuery FocusPoint
-[jQuery FocusPoint ](https://github.com/jonom/jquery-focuspoint) allows you to fill a flexible container with your image, while always retaining the most important part. Check out a [demo here](http://jonom.github.io/jquery-focuspoint/demos/grid/lizard.html). Example integration:
+[jQuery FocusPoint ](https://github.com/jonom/jquery-focuspoint) allows you to fill a flexible container with your image, while always retaining the most important part. Check out a [demo here](http://jonom.github.io/jquery-focuspoint/demos/grid/lizard.html). Example v1 integration:
 
 ```html
 <% with $SomeImage %>
 	<div class="focuspoint"
-		data-focus-x="$FocusPoint.X"
-		data-focus-y="$FocusPoint.Y"
+		data-focus-x="$FocusPoint.LegacyX"
+		data-focus-y="$FocusPoint.LegacyY"
 		data-image-w="$Width"
 		data-image-h="$Height">
 		<img src="$Link" alt="" />
 	</div>
 <% end_with %>
 ```
+
+For v2, just replace `LegacyX` and `LegacyY` with `OffsetX` and `OffsetY`.
 
 ### Background image with focus point preserved
 

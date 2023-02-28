@@ -35,7 +35,7 @@ class DBFocusPoint extends DBComposite
     /**
      * Focus X
      *
-     * @return double Decimal number between -1 & 1, where -1 is far left, 0 is center, 1 is far right.
+     * @return float Decimal number between -1 & 1, where -1 is far left, 0 is center, 1 is far right.
      */
     public function getX(): float
     {
@@ -317,5 +317,45 @@ class DBFocusPoint extends DBComposite
     public function PercentageY(): int
     {
         return intval(round(DBFocusPoint::focusCoordToOffset($this->getY()) * 100));
+    }
+
+    /**
+     * Legacy X (Focus X in legacy coordinate system)
+     *
+     * @return float Decimal number between -1 & 1, where -1 is far left, 0 is center, 1 is far right.
+     */
+    public function LegacyX(): float
+    {
+        return $this->getX();
+    }
+
+    /**
+     * Legacy Y (Focus Y in legacy coordinate system)
+     *
+     * @return float Decimal number between -1 & 1, where -1 is bottom, 0 is center, 1 is top.
+     */
+    public function LegacyY(): float
+    {
+        return $this->getY() == 0 ? 0 : $this->getY() * -1;
+    }
+
+    /**
+     * Offset X (Focus X in web coordinate system)
+     *
+     * @return float Decimal number between 0 & 1, where 0 is far left, 0.5 is center, 1 is far right.
+     */
+    public function OffsetX(): float
+    {
+        return DBFocusPoint::focusCoordToOffset($this->getX());
+    }
+
+    /**
+     * Offset Y (Focus Y in web coordinate system)
+     *
+     * @return float Decimal number between 0 & 1, where 0 is top, 0 .5 is center, 1 is bottom.
+     */
+    public function OffsetY(): float
+    {
+        return DBFocusPoint::focusCoordToOffset($this->getY());
     }
 }
