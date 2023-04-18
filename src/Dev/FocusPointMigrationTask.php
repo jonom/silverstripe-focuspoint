@@ -49,36 +49,61 @@ class FocusPointMigrationTask extends MigrationTask
 
         // Safety net
         if (!isset($fields["{$to}X"]) || !isset($fields["{$to}Y"])) {
-            throw new \Exception("$imageTable table does not have \"{$to}X\" and \"{$to}Y\" fields. Did you run dev/build?");
+            throw new \Exception("{$imageTable} table does not have \"{$to}X\" and \"{$to}Y\" fields. Did you run dev/build?");
         }
 
         // Update all Image tables
         $imageTables = [
             $imageTable,
-            $imageTable . "_" . Versioned::LIVE,
-            $imageTable . "_Versions",
+            $imageTable . '_' . Versioned::LIVE,
+            $imageTable . '_Versions',
         ];
 
-        DB::get_conn()->withTransaction(function() use ($imageTables, $from, $to, $message) {
+        $success = false;
+        DB::get_conn()->withTransaction(function () use ($imageTables, $from, $to, &$success) {
             $oldColumnX = "\"{$from}X\"";
             $oldColumnY = "\"{$from}Y\"";
             $newColumnX = "\"{$to}X\"";
             $newColumnY = "\"{$to}Y\"";
 
-            foreach ($imageTables as $imageTable) {
-                $query = SQLUpdate::create("\"$imageTable\"")
-                    ->assignSQL($newColumnX, $oldColumnX)
-                    ->assignSQL($newColumnY, "$oldColumnY * -1");
+            foreach ($imageTables as $table) {
+                $fields = DB::field_list($table);
+                $hasOldColumns = isset($fields["{$from}X"]) && isset($fields["{$from}Y"]);
 
-                $query->execute();
+                if ($hasOldColumns) {
+                    $query = SQLUpdate::create("\"{$table}\"")
+                        ->assignSQL($newColumnX, $oldColumnX)
+                        ->assignSQL($newColumnY, "{$oldColumnY} * -1");
 
-                DB::query("ALTER TABLE \"$imageTable\" DROP COLUMN $oldColumnX");
-                DB::query("ALTER TABLE \"$imageTable\" DROP COLUMN $oldColumnY");
+                    $query->execute();
+
+                    continue;
+                }
+
+                DB::get_schema()->alterationMessage("{$table} does not have {$oldColumnX} and {$oldColumnY} fields. Skipping...", 'notice');
             }
 
-            DB::get_schema()->alterationMessage($message, 'changed');
-        } , function () {
+            $success = true;
+        }, function () {
             DB::get_schema()->alterationMessage('Failed to alter FocusPoint fields', 'error');
         }, false, true);
+
+        if ($success) {
+            foreach ($imageTables as $table) {
+                $fields = DB::field_list($table);
+                $hasOldColumns = isset($fields["{$from}X"]) && isset($fields["{$from}Y"]);
+
+                if ($hasOldColumns) {
+                    $oldColumnX = "\"{$from}X\"";
+                    $oldColumnY = "\"{$from}Y\"";
+
+                    DB::query("ALTER TABLE \"{$table}\" DROP COLUMN {$oldColumnX}");
+                    DB::query("ALTER TABLE \"{$table}\" DROP COLUMN {$oldColumnY}");
+
+                    DB::get_schema()->alterationMessage("Dropped {$oldColumnX} and {$oldColumnY} from {$table}", 'changed');
+                }
+            }
+            DB::get_schema()->alterationMessage($message, 'changed');
+        }
     }
 }
