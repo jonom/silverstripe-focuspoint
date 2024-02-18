@@ -285,14 +285,14 @@ class DBFocusPoint extends DBComposite
         switch ($cropAxis) {
             case 'x':
                 //Generate image
-                return $backend
-                    ->resizeByHeight($height)
-                    ->crop(0, $cropOffset, $width, $height);
+                $backend = $backend->resizeByHeight($height);
+                $backendCopy = clone $backend;
+                return $backendCopy->crop(0, $cropOffset, $width, $height);
             case 'y':
                 //Generate image
-                return $backend
-                    ->resizeByWidth($width)
-                    ->crop($cropOffset, 0, $width, $height);
+                $backend = $backend->resizeByWidth($height);
+                $backendCopy = clone $backend;
+                return $backendCopy->crop($cropOffset, 0, $width, $height);
             default:
                 //Generate image without cropping
                 return $backend->resize($width, $height);
