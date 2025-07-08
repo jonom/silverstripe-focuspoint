@@ -25,7 +25,7 @@ class ImageManipulationTest extends SapphireTest
         /** @var File $image */
         $files = File::get()->exclude('ClassName', Folder::class);
         foreach ($files as $image) {
-            $sourcePath = __DIR__ . '/images/' . $image->Name;
+            $sourcePath = __DIR__ . '/images/pngTestImage.png';
             $image->setFromLocalFile($sourcePath, $image->Filename);
         }
 
@@ -50,28 +50,28 @@ class ImageManipulationTest extends SapphireTest
     private function Images()
     {
         $pngLeftTop = $this->objFromFixture(Image::class, 'pngLeftTop');
-        $pngLeftTop->VerticalSliceTopLeftColor = '#ff0000';
-        $pngLeftTop->VerticalSliceBottomRightColor = '#00ff00';
-        $pngLeftTop->HorizontalSliceTopLeftColor = '#ff0000';
-        $pngLeftTop->HorizontalSliceBottomRightColor = '#ffff00';
+        $pngLeftTop->VerticalSliceTopLeftColor = 'ff0000';
+        $pngLeftTop->VerticalSliceBottomRightColor = '00ff00';
+        $pngLeftTop->HorizontalSliceTopLeftColor = 'ff0000';
+        $pngLeftTop->HorizontalSliceBottomRightColor = 'ffff00';
 
         $pngRightTop = $this->objFromFixture(Image::class, 'pngRightTop');
-        $pngRightTop->VerticalSliceTopLeftColor = '#ffff00';
-        $pngRightTop->VerticalSliceBottomRightColor = '#0000ff';
-        $pngRightTop->HorizontalSliceTopLeftColor = '#ff0000';
-        $pngRightTop->HorizontalSliceBottomRightColor = '#ffff00';
+        $pngRightTop->VerticalSliceTopLeftColor = 'ffff00';
+        $pngRightTop->VerticalSliceBottomRightColor = '0000ff';
+        $pngRightTop->HorizontalSliceTopLeftColor = 'ff0000';
+        $pngRightTop->HorizontalSliceBottomRightColor = 'ffff00';
 
         $pngRightBottom = $this->objFromFixture(Image::class, 'pngRightBottom');
-        $pngRightBottom->VerticalSliceTopLeftColor = '#ffff00';
-        $pngRightBottom->VerticalSliceBottomRightColor = '#0000ff';
-        $pngRightBottom->HorizontalSliceTopLeftColor = '#00ff00';
-        $pngRightBottom->HorizontalSliceBottomRightColor = '#0000ff';
+        $pngRightBottom->VerticalSliceTopLeftColor = 'ffff00';
+        $pngRightBottom->VerticalSliceBottomRightColor = '0000ff';
+        $pngRightBottom->HorizontalSliceTopLeftColor = '00ff00';
+        $pngRightBottom->HorizontalSliceBottomRightColor = '0000ff';
 
         $pngLeftBottom = $this->objFromFixture(Image::class, 'pngLeftBottom');
-        $pngLeftBottom->VerticalSliceTopLeftColor = '#ff0000';
-        $pngLeftBottom->VerticalSliceBottomRightColor = '#00ff00';
-        $pngLeftBottom->HorizontalSliceTopLeftColor = '#00ff00';
-        $pngLeftBottom->HorizontalSliceBottomRightColor = '#0000ff';
+        $pngLeftBottom->VerticalSliceTopLeftColor = 'ff0000';
+        $pngLeftBottom->VerticalSliceBottomRightColor = '00ff00';
+        $pngLeftBottom->HorizontalSliceTopLeftColor = '00ff00';
+        $pngLeftBottom->HorizontalSliceBottomRightColor = '0000ff';
 
         return array($pngLeftTop, $pngRightTop, $pngRightBottom, $pngLeftBottom);
     }
@@ -86,8 +86,8 @@ class ImageManipulationTest extends SapphireTest
             $croppedVert = $img->FocusFill(1, 50);
             $this->assertTrue($croppedVert->isSize(1, 50));
             $im = $croppedVert->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor =  $im->pickColor(0, 49, 'hex');
+            $leftTopColor = $im->pickColor(0, 0)->toHex();
+            $bottomRightColor =  $im->pickColor(0, 49)->toHex();
             $this->assertEquals($img->VerticalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->VerticalSliceBottomRightColor, $bottomRightColor);
 
@@ -95,8 +95,8 @@ class ImageManipulationTest extends SapphireTest
             $croppedHorz = $img->FocusFill(50, 1);
             $this->assertTrue($croppedHorz->isSize(50, 1));
             $im = $croppedHorz->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(49, 0, 'hex');
+            $leftTopColor = $im->pickColor(0, 0)->toHex();
+            $bottomRightColor = $im->pickColor(49, 0)->toHex();
             $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
         }
@@ -113,8 +113,8 @@ class ImageManipulationTest extends SapphireTest
             $croppedVert = $img->FocusFillMax(1, 50);
             $this->assertTrue($croppedVert->isSize(1, 50));
             $im = $croppedVert->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(0, 49, 'hex');
+            $leftTopColor = $im->pickColor(0, 0)->toHex();
+            $bottomRightColor = $im->pickColor(0, 49)->toHex();
             $this->assertEquals($img->VerticalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->VerticalSliceBottomRightColor, $bottomRightColor);
 
@@ -122,8 +122,8 @@ class ImageManipulationTest extends SapphireTest
             $croppedHorz = $img->FocusFillMax(50, 1);
             $this->assertTrue($croppedHorz->isSize(50, 1));
             $im = $croppedHorz->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(49, 0, 'hex');
+            $leftTopColor = $im->pickColor(0, 0)->toHex();
+            $bottomRightColor = $im->pickColor(49, 0)->toHex();
             $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
 
@@ -133,8 +133,8 @@ class ImageManipulationTest extends SapphireTest
             $croppedVert = $img->FocusFillMax(1, 200);
             $this->assertTrue($croppedVert->isSize(1, 100));
             $im = $croppedVert->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(0, 99, 'hex');
+            $leftTopColor = $im->pickColor(0, 0)->toHex();
+            $bottomRightColor = $im->pickColor(0, 99)->toHex();
             $this->assertEquals($img->VerticalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->VerticalSliceBottomRightColor, $bottomRightColor);
 
@@ -142,8 +142,8 @@ class ImageManipulationTest extends SapphireTest
             $croppedHorz = $img->FocusFillMax(200, 1);
             $this->assertTrue($croppedHorz->isSize(100, 1));
             $im = $croppedHorz->getImageBackend()->getImageResource();
-            $leftTopColor = $im->pickColor(0, 0, 'hex');
-            $bottomRightColor = $im->pickColor(99, 0, 'hex');
+            $leftTopColor = $im->pickColor(0, 0)->toHex();
+            $bottomRightColor = $im->pickColor(99, 0)->toHex();
             $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
         }
