@@ -1,13 +1,12 @@
-# FocusPoint: Smarter Image Cropping for SilverStripe
+# FocusPoint: Smarter Image Cropping for Silverstripe
 
-[![Build Status](https://travis-ci.org/jonom/silverstripe-focuspoint.svg?branch=master)](https://travis-ci.org/jonom/silverstripe-focuspoint)
 [![Latest Stable Version](https://poser.pugx.org/jonom/focuspoint/v/stable)](https://packagist.org/packages/jonom/focuspoint)
 [![Latest Unstable Version](https://poser.pugx.org/jonom/focuspoint/v/unstable)](https://packagist.org/packages/jonom/focuspoint)
 [![License](https://poser.pugx.org/jonom/focuspoint/license)](https://packagist.org/packages/jonom/focuspoint)
 
-The goal of this module is to introduce some basic art direction to control how images are cropped in SilverStripe.
+The goal of this module is to introduce some basic art direction to control how images are cropped in Silverstripe.
 
-**Problem:** SilverStripe crops all images from the centre. If the subject is off-centre, it may be cropped out.
+**Problem:** Silverstripe crops all images from the centre. If the subject is off-centre, it may be cropped out.
 
 **Solution:** FocusPoint allows you to tag the subject in an image and ensures it is not lost during cropping.
 
@@ -15,24 +14,24 @@ The goal of this module is to introduce some basic art direction to control how 
 
 ## Requirements
 
-SilverStripe ~4 (SS 3.1+ support available in earlier releases)
+Silverstripe ^6 (SS 3.1+ support available in earlier releases)
 
 ## Documentation
 
-* [Installation](docs/en/installation.md)
-* [Basic Usage](docs/en/basic-usage.md)
-* [Advanced Usage](docs/en/advanced-usage.md)
-* [Troubleshooting](docs/en/troubleshooting.md)
-* [Change log](changelog.md)
-* [License](license.md)
-* [Contributing](contributing.md)
-* [Build-Tools](build-tools.md)
+- [Installation](docs/en/installation.md)
+- [Basic Usage](docs/en/basic-usage.md)
+- [Advanced Usage](docs/en/advanced-usage.md)
+- [Troubleshooting](docs/en/troubleshooting.md)
+- [Change log](changelog.md)
+- [License](license.md)
+- [Contributing](contributing.md)
+- [Build-Tools](build-tools.md)
 
 ## To Do
 
- * Internationalisation
- * Advanced cropping options and interfaces (may be an additional module)
- * Auto detect focus point via Imagga API
+- Internationalisation
+- Advanced cropping options and interfaces (may be an additional module)
+- Auto detect focus point via Imagga API
 
 ## Maintainer contact
 

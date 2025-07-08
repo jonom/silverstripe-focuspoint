@@ -1,7 +1,7 @@
 {
   "name": "jonom-focuspoint",
   "version": "3.0",
-  "description": "Smarter automatic image cropping for SilverStripe",
+  "description": "Smarter automatic image cropping for Silverstripe",
   "license": "MIT",
   "author": "Jonathon Menz",
   "engines": {

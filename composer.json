@@ -1,7 +1,7 @@
 {
   "name": "jonom/focuspoint",
   "type": "silverstripe-vendormodule",
-  "description": "Smarter automatic image cropping for SilverStripe",
+  "description": "Smarter automatic image cropping for Silverstripe",
   "keywords": [
     "silverstripe",
     "crop",

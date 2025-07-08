@@ -1,7 +1,7 @@
 # Build Tools
 
-This module uses [webpack](https://webpack.js.org/) to build JS and CSS files. 
-This is in line with how the SilverStripe core-modules build their client-assets.
+This module uses [webpack](https://webpack.js.org/) to build JS and CSS files.
+This is in line with how the Silverstripe core-modules build their client-assets.
 
 ## Writing CSS
 
@@ -46,4 +46,3 @@ To create a release build, do:
 ```bash
 yarn run build
 ```
-
