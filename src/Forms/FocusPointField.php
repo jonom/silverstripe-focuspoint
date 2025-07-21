@@ -51,9 +51,9 @@ class FocusPointField extends FieldGroup
             $y->setValue($image->getField($name)->getY());
         }
 
-        $this->setName($name)->setValue('');
-
         parent::__construct($title, $fields);
+
+        $this->setName($name)->setValue('');
     }
 
     public function getToolTip()
