@@ -103,10 +103,44 @@ class FocusPointExtension extends Extension
      */
     public function FocusFill(int $width, int $height)
     {
-        $cropData = $this->owner->FocusPoint->calculateCrop($width, $height, true);
         $variant = $this->focusPointVariantName(__FUNCTION__, $width, $height);
 
-        return $this->manipulateImageCropData($variant, $cropData);
+        return $this->owner->manipulateImage($variant, function (Image_Backend $backend) use ($width, $height) {
+            $cropData = $this->owner->FocusPoint->calculateCrop($width, $height, true);
+
+            // Crop failed, no image
+            if (!$cropData) {
+                return null;
+            }
+
+            // Respect force_resample
+            if ($cropData['x']['TargetLength'] === $cropData['x']['OriginalLength']
+                && $cropData['y']['TargetLength'] === $cropData['y']['OriginalLength']
+                && !Config::inst()->get(DBFile::class, 'force_resample')
+            ) {
+                return $this->owner;
+            }
+
+            $newImage = $this->owner->FocusPoint->applyCrop($backend, $cropData);
+
+            // Force refresh of new focus point for DBFile
+            // Image dataobject uses its own value.
+            if ($newImage instanceof DBFile) {
+                $newFocusPoint = DBFocusPoint::create();
+                $newFocusPoint->setValue(
+                    [
+                        'X' => $cropData['x']['FocusPoint'],
+                        'Y' => $cropData['y']['FocusPoint'],
+                        'Width' => $cropData['x']['TargetLength'],
+                        'Height' => $cropData['y']['TargetLength'],
+                    ],
+                    $newImage
+                );
+                $newImage->FocusPoint = $newFocusPoint;
+            }
+
+            return $newImage;
+        });
     }
 
     /**
