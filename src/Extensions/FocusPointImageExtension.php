@@ -23,7 +23,7 @@ class FocusPointImageExtension extends FocusPointExtension
         'FocusPoint' => DBFocusPoint::class,
     ];
 
-    public function requireDefaultRecords()
+    public function onRequireDefaultRecords()
     {
         $autoMigrate = FocusPointMigrationTask::create();
         $autoMigrate->up();
