@@ -149,6 +149,25 @@ class ImageManipulationTest extends SapphireTest
         }
     }
 
+    public function testStaleCachedDimensionsFallBackToCenteredCrop(): void
+    {
+        /** @var Image|FocusPointImageExtension $img */
+        $img = $this->objFromFixture(Image::class, 'pngLeftTop');
+        $this->assertSame(100, $img->getWidth());
+
+        // Cached size does not match the 100x100 file, so the crop box would exceed the image
+        $img->FocusPoint->Width = 200;
+        $img->FocusPoint->Height = 100;
+
+        $cropped = $img->FocusFill(50, 50);
+        $this->assertNotNull($cropped);
+        $this->assertTrue($cropped->isSize(50, 50));
+
+        $cropped = $img->FocusFill(50, 25);
+        $this->assertNotNull($cropped);
+        $this->assertTrue($cropped->isSize(50, 25));
+    }
+
     public function testPercentages(): void
     {
         /** @var Image|FocusPointImageExtension $pngLeftTop */

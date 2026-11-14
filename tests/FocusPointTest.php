@@ -38,6 +38,16 @@ class FocusPointTest extends SapphireTest
         $this->assertEquals(1.0, DBFocusPoint::focusOffsetToCoord(1));
     }
 
+    public function testCoordinatesAreClampedToImage(): void
+    {
+        // Bypass the clamping setters, as when values are hydrated from the database
+        $this->focusPoint->setField('X', 5);
+        $this->focusPoint->setField('Y', -7);
+
+        $this->assertSame(1.0, $this->focusPoint->getX());
+        $this->assertSame(-1.0, $this->focusPoint->getY());
+    }
+
     public function testCalculateCrop(): void
     {
         $this->markTestIncomplete('Implement crop calculation tests');

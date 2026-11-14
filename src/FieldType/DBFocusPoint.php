@@ -39,7 +39,7 @@ class DBFocusPoint extends DBComposite
      */
     public function getX(): float
     {
-        return (float) $this->getField('X');
+        return min(1.0, max(-1.0, (float) $this->getField('X')));
     }
 
     /**
@@ -62,7 +62,7 @@ class DBFocusPoint extends DBComposite
      */
     public function getY(): float
     {
-        return (float)$this->getField('Y');
+        return min(1.0, max(-1.0, (float) $this->getField('Y')));
     }
 
     /**
@@ -280,6 +280,13 @@ class DBFocusPoint extends DBComposite
         $height = $cropData['y']['TargetLength'];
         $cropAxis = $cropData['CropAxis'];
         $cropOffset = $cropData['CropOffset'];
+
+        // Cached size is stale, so the crop box may lie outside the image: center instead
+        if ($backend->getWidth() !== $cropData['x']['OriginalLength']
+            || $backend->getHeight() !== $cropData['y']['OriginalLength']
+        ) {
+            return $backend->croppedResize($width, $height);
+        }
 
         // Resize based on axis
         switch ($cropAxis) {
